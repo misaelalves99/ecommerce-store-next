@@ -1,0 +1,52 @@
+// app/categories/[id]/page.tsx
+
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import CategoryDetails from '../../components/Category/CategoryDetails';
+import { Category } from '../../types/Category';
+import { categories as mockCategories } from '../../mocks/categories';
+import styles from './DetailsCategoryPage.module.css';
+
+interface DetailsCategoryPageProps {
+  params: { id: string };
+}
+
+export default function DetailsCategoryPage({ params }: DetailsCategoryPageProps) {
+  const { id } = params;
+  const router = useRouter();
+  const [category, setCategory] = useState<Category | null>(null);
+
+  useEffect(() => {
+    if (id) {
+      const foundCategory = mockCategories.find((c) => c.id === Number(id));
+      if (foundCategory) {
+        setCategory(foundCategory);
+      } else {
+        alert('Categoria não encontrada.');
+        router.push('/categories');
+      }
+    }
+  }, [id, router]);
+
+  if (!category) {
+    return <p className={styles.loading}>Carregando detalhes da categoria...</p>;
+  }
+
+  return (
+    <div className={styles.pageContainer}>
+      <h1 className={styles.heading}>Categoria - Detalhes</h1>
+      <CategoryDetails category={category} />
+      <div className={styles.actions}>
+        <Link href="/categories" className={`btn btn-secondary ${styles.btn}`}>
+          Voltar
+        </Link>
+        <Link href={`/categories/edit/${category.id}`} className={`btn btn-warning ${styles.btn}`}>
+          Editar
+        </Link>
+      </div>
+    </div>
+  );
+}
