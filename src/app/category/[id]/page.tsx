@@ -1,21 +1,17 @@
 // app/categories/[id]/page.tsx
 
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import CategoryDetails from '../../components/Category/CategoryDetails';
-import { Category } from '../../types/Category';
-import { categories as mockCategories } from '../../mocks/categories';
-import styles from './DetailsCategoryPage.module.css';
+import { useEffect, useState } from "react";
+import { useRouter, useParams } from "next/navigation";
+import Link from "next/link";
+import CategoryDetails from "../../components/Category/CategoryDetails";
+import { Category } from "../../types/Category";
+import { categories as mockCategories } from "../../mocks/categories";
+import styles from "./DetailsCategoryPage.module.css";
 
-interface DetailsCategoryPageProps {
-  params: { id: string };
-}
-
-export default function DetailsCategoryPage({ params }: DetailsCategoryPageProps) {
-  const { id } = params;
+export default function DetailsCategoryPage() {
+  const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const [category, setCategory] = useState<Category | null>(null);
 
@@ -25,8 +21,8 @@ export default function DetailsCategoryPage({ params }: DetailsCategoryPageProps
       if (foundCategory) {
         setCategory(foundCategory);
       } else {
-        alert('Categoria não encontrada.');
-        router.push('/categories');
+        alert("Categoria não encontrada.");
+        router.push("/categories");
       }
     }
   }, [id, router]);
@@ -43,7 +39,10 @@ export default function DetailsCategoryPage({ params }: DetailsCategoryPageProps
         <Link href="/categories" className={`btn btn-secondary ${styles.btn}`}>
           Voltar
         </Link>
-        <Link href={`/categories/edit/${category.id}`} className={`btn btn-warning ${styles.btn}`}>
+        <Link
+          href={`/categories/edit/${category.id}`}
+          className={`btn btn-warning ${styles.btn}`}
+        >
           Editar
         </Link>
       </div>

@@ -10,26 +10,32 @@ import { Brand } from '../../types/Brand';
 import { brands as mockBrands } from '../../mocks/brands';
 import styles from './DetailsBrandPage.module.css';
 
-interface DetailsBrandPageProps {
-  params: { id: string };
-}
+type PageProps = {
+  params: Promise<{ id: string }> | { id: string };
+};
 
-export default function DetailsBrandPage({ params }: DetailsBrandPageProps) {
-  const { id } = params;
-  const router = useRouter();
+export default function DetailsBrandPage({ params }: PageProps) {
   const [brand, setBrand] = useState<Brand | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
-    if (id) {
-      const foundBrand = mockBrands.find((b) => b.id === Number(id));
-      if (foundBrand) {
-        setBrand(foundBrand);
-      } else {
-        alert('Marca não encontrada.');
-        router.push('/brands');
+    const load = async () => {
+      const resolvedParams = await params;
+      const { id } = resolvedParams;
+
+      if (id) {
+        const foundBrand = mockBrands.find((b) => b.id === Number(id));
+        if (foundBrand) {
+          setBrand(foundBrand);
+        } else {
+          alert('Marca não encontrada.');
+          router.push('/brands');
+        }
       }
-    }
-  }, [id, router]);
+    };
+
+    load();
+  }, [params, router]);
 
   if (!brand) {
     return <p className={styles.loading}>Carregando detalhes da marca...</p>;
@@ -43,7 +49,10 @@ export default function DetailsBrandPage({ params }: DetailsBrandPageProps) {
         <Link href="/brands" className={`btn btn-secondary ${styles.btn}`}>
           Voltar
         </Link>
-        <Link href={`/brands/edit/${brand.id}`} className={`btn btn-warning ${styles.btn}`}>
+        <Link
+          href={`/brands/edit/${brand.id}`}
+          className={`btn btn-warning ${styles.btn}`}
+        >
           Editar
         </Link>
       </div>
