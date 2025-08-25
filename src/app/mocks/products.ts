@@ -15,8 +15,8 @@ export const products: Product[] = [
     categoryId: 1,
     brandId: 1,
     isActive: true,
-    category: categories.find((c) => c.id === 1),
-    brand: brands.find((b) => b.id === 1),
+    category: { name: categories.find(c => c.id === 1)?.name ?? '-' },
+    brand: { name: brands.find(b => b.id === 1)?.name ?? '-' },
   },
   {
     id: 2,
@@ -28,8 +28,8 @@ export const products: Product[] = [
     categoryId: 2,
     brandId: 2,
     isActive: true,
-    category: categories.find((c) => c.id === 2),
-    brand: brands.find((b) => b.id === 2),
+    category: { name: categories.find(c => c.id === 2)?.name ?? '-' },
+    brand: { name: brands.find(b => b.id === 2)?.name ?? '-' },
   },
   {
     id: 3,
@@ -41,7 +41,7 @@ export const products: Product[] = [
     categoryId: 3,
     brandId: 3,
     isActive: false,
-    category: categories.find((c) => c.id === 3),
-    brand: brands.find((b) => b.id === 3),
+    category: { name: categories.find(c => c.id === 3)?.name ?? '-' },
+    brand: { name: brands.find(b => b.id === 3)?.name ?? '-' },
   },
 ];

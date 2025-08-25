@@ -20,6 +20,6 @@ export interface Product {
   categoryId: number;
   brandId: number;
   isActive: boolean;
-  category?: { name: string };
-  brand?: { name: string };
+  category?: Pick<Category, 'name'>; // apenas o name quando existir
+  brand?: Pick<Brand, 'name'>;       // apenas o name quando existir
 }

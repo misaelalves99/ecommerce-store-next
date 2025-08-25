@@ -5,7 +5,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
 import styles from "./Navbar.module.css";
 
 export default function Navbar() {
@@ -20,14 +19,6 @@ export default function Navbar() {
     <nav className={`${styles.navbar} navbar-expand-lg`}>
       <div className={styles["container-navbar"]}>
         <Link href="/" className={styles["navbar-brand"]}>
-          <Image
-            src="https://via.placeholder.com/40"
-            alt="Ecommerce"
-            width={40}
-            height={40}
-            className={styles.logo}
-            priority
-          />
           Loja Virtual
         </Link>
 
