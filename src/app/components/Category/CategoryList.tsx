@@ -32,18 +32,24 @@ export default function CategoryList({ categories }: CategoryListProps) {
             <td>{category.name}</td>
             <td>{category.description}</td>
             <td>
-              <Link href={`/category/${category.id}`} className={`${styles.btn} ${styles.btnInfo}`}>
+              <Link
+                href={`/category/${category.id}`}
+                className={`${styles.btn} ${styles.btnInfo}`}
+              >
                 Detalhes
               </Link>
-              <Link href={`/category/edit/${category.id}`} className={`${styles.btn} ${styles.btnWarning}`}>
+              <Link
+                href={`/category/edit/${category.id}`}
+                className={`${styles.btn} ${styles.btnWarning}`}
+              >
                 Editar
               </Link>
-              <button
+              <Link
+                href={`/category/delete/${category.id}`}
                 className={`${styles.btn} ${styles.btnDanger}`}
-                onClick={() => alert(`Excluir categoria ${category.name}`)}
               >
                 Excluir
-              </button>
+              </Link>
             </td>
           </tr>
         ))}

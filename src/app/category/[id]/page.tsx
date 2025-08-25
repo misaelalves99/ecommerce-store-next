@@ -22,7 +22,7 @@ export default function DetailsCategoryPage() {
         setCategory(foundCategory);
       } else {
         alert("Categoria não encontrada.");
-        router.push("/categories");
+        router.push("/category");
       }
     }
   }, [id, router]);
@@ -36,11 +36,11 @@ export default function DetailsCategoryPage() {
       <h1 className={styles.heading}>Categoria - Detalhes</h1>
       <CategoryDetails category={category} />
       <div className={styles.actions}>
-        <Link href="/categories" className={`btn btn-secondary ${styles.btn}`}>
+        <Link href="/category" className={`btn btn-secondary ${styles.btn}`}>
           Voltar
         </Link>
         <Link
-          href={`/categories/edit/${category.id}`}
+          href={`/category/edit/${category.id}`}
           className={`btn btn-warning ${styles.btn}`}
         >
           Editar

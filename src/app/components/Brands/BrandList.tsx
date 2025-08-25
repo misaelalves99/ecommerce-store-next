@@ -30,18 +30,24 @@ export default function BrandList({ brands }: BrandListProps) {
             <td>{brand.id}</td>
             <td>{brand.name}</td>
             <td>
-              <Link href={`/brands/${brand.id}`} className={`btn btn-primary btn-sm ${styles.btnDetalhes}`}>
+              <Link
+                href={`/brands/${brand.id}`}
+                className={`btn btn-primary btn-sm ${styles.btnDetalhes}`}
+              >
                 Detalhes
               </Link>{' '}
-              <Link href={`/brands/edit/${brand.id}`} className={`btn btn-warning btn-sm ${styles.btnEditar}`}>
+              <Link
+                href={`/brands/edit/${brand.id}`}
+                className={`btn btn-warning btn-sm ${styles.btnEditar}`}
+              >
                 Editar
               </Link>{' '}
-              <button
+              <Link
+                href={`/brands/delete/${brand.id}`}
                 className={`btn btn-danger btn-sm ${styles.btnExcluir}`}
-                onClick={() => alert(`Excluir marca ${brand.name}`)}
               >
                 Excluir
-              </button>
+              </Link>
             </td>
           </tr>
         ))}

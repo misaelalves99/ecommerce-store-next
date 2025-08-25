@@ -1,0 +1,32 @@
+.container {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  max-width: 500px;
+  margin: 50px auto;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn, .btnSecondary, .btnDanger {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btnSecondary {
+  background-color: #ccc;
+}
+
+.btnDanger {
+  background-color: #e74c3c;
+  color: #fff;
+}

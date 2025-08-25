@@ -11,6 +11,10 @@ interface ProductListProps {
 }
 
 export default function ProductList({ products }: ProductListProps) {
+  if (products.length === 0) {
+    return <p className={styles.empty}>Nenhum produto cadastrado.</p>;
+  }
+
   return (
     <table className={`table table-striped table-hover shadow-sm ${styles.table}`}>
       <thead className="table-dark">
@@ -30,19 +34,43 @@ export default function ProductList({ products }: ProductListProps) {
           <tr key={product.id}>
             <td>{product.name}</td>
             <td>{product.sku}</td>
-            <td>{product.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+            <td>
+              {product.price.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+              })}
+            </td>
             <td>{product.stock}</td>
             <td>{product.category?.name ?? '-'}</td>
             <td>{product.brand?.name ?? '-'}</td>
             <td>
-              <span className={`badge ${product.isActive ? 'bg-success' : 'bg-secondary'}`}>
+              <span
+                className={`badge ${
+                  product.isActive ? 'bg-success' : 'bg-secondary'
+                }`}
+              >
                 {product.isActive ? 'Ativo' : 'Inativo'}
               </span>
             </td>
             <td>
-              <Link href={`/products/${product.id}`} className={`btn btn-info btn-sm me-1 ${styles.btn}`}>Detalhes</Link>
-              <Link href={`/products/edit/${product.id}`} className={`btn btn-warning btn-sm me-1 ${styles.btn}`}>Editar</Link>
-              <Link href={`/products/delete/${product.id}`} className={`btn btn-danger btn-sm ${styles.btn}`}>Excluir</Link>
+              <Link
+                href={`/products/${product.id}`}
+                className={`btn btn-info btn-sm me-1 ${styles.btn}`}
+              >
+                Detalhes
+              </Link>
+              <Link
+                href={`/products/edit/${product.id}`}
+                className={`btn btn-warning btn-sm me-1 ${styles.btn}`}
+              >
+                Editar
+              </Link>
+              <Link
+                href={`/products/delete/${product.id}`}
+                className={`btn btn-danger btn-sm ${styles.btn}`}
+              >
+                Excluir
+              </Link>
             </td>
           </tr>
         ))}

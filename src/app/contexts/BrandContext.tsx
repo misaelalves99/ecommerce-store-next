@@ -5,8 +5,10 @@
 import { createContext } from "react";
 import { BrandContextType } from "../types/BrandContextType";
 
-// Inicializamos o contexto com valores compatíveis
+// Inicializa o contexto com valores padrão (funções vazias)
 export const BrandContext = createContext<BrandContextType>({
   brands: [],
-  addBrand: () => {}, // função vazia
+  addBrand: () => {},
+  removeBrand: () => {},
+  updateBrand: () => {},
 });
