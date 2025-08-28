@@ -10,7 +10,6 @@ interface CategoryDetailsProps {
 export default function CategoryDetails({ category }: CategoryDetailsProps) {
   return (
     <div className={styles.detailsContainer}>
-      <h2 className={styles.heading}>Detalhes da Categoria</h2>
       <div className={styles.detailItem}>
         <strong>ID:</strong> <span>{category.id}</span>
       </div>

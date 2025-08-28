@@ -1,6 +1,7 @@
 // app/products/edit/[id]/page.tsx
 
 "use client";
+
 import { useRouter, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import ProductForm from "../../../components/Product/ProductForm";
@@ -8,6 +9,7 @@ import { Product, Category, Brand } from "../../../types/Product";
 import { products as mockProducts } from "../../../mocks/products";
 import { categories as mockCategories } from "../../../mocks/categories";
 import { brands as mockBrands } from "../../../mocks/brands";
+import styles from "./EditProductPage.module.css";
 
 export default function EditProductPage() {
   const { id } = useParams<{ id: string }>();
@@ -31,11 +33,11 @@ export default function EditProductPage() {
     router.push("/products");
   };
 
-  if (!product) return <div>Carregando...</div>;
+  if (!product) return <div className={styles.loading}>Carregando...</div>;
 
   return (
-    <div>
-      <h1>Editar Produto</h1>
+    <div className={styles.container}>
+      <h1 className={styles.pageTitle}>Editar Produto</h1>
       <ProductForm
         initialData={product}
         categories={categories}

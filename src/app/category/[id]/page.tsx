@@ -22,7 +22,7 @@ export default function DetailsCategoryPage() {
         setCategory(foundCategory);
       } else {
         alert("Categoria não encontrada.");
-        router.push("/category");
+        router.push("/categories");
       }
     }
   }, [id, router]);
@@ -33,7 +33,7 @@ export default function DetailsCategoryPage() {
 
   return (
     <div className={styles.pageContainer}>
-      <h1 className={styles.heading}>Categoria - Detalhes</h1>
+      <h1 className={styles.heading}>Detalhes da Categoria</h1>
       <CategoryDetails category={category} />
       <div className={styles.actions}>
         <Link href="/category" className={`btn btn-secondary ${styles.btn}`}>

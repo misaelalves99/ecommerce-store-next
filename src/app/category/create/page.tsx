@@ -5,6 +5,7 @@
 import { useRouter } from 'next/navigation';
 import CategoryForm from '../../components/Category/CategoryForm';
 import { useCategories } from '../../hooks/useCategories';
+import styles from './CreateCategoryPage.module.css';
 
 export default function CreateCategoryPage() {
   const router = useRouter();
@@ -20,10 +21,8 @@ export default function CreateCategoryPage() {
   };
 
   return (
-    <div>
-      <h1 style={{ textAlign: 'center', fontSize: '1.8rem', color: '#333', marginBottom: '1.5rem' }}>
-        Adicionar Categoria
-      </h1>
+    <div className={styles.container}>
+      <h1 className={styles.pageTitle}>Adicionar Categoria</h1>
       <CategoryForm onSubmit={handleCreate} onCancel={handleCancel} />
     </div>
   );

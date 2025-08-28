@@ -10,8 +10,6 @@ interface ProductDetailsProps {
 export default function ProductDetails({ product }: ProductDetailsProps) {
   return (
     <div>
-      <h1 className={styles.title}>{product.name}</h1>
-
       <div className={styles.card}>
         <div className={styles.cardBody}>
           <h5 className={styles.cardTitle}>{product.name}</h5>

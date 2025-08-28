@@ -15,7 +15,7 @@ export default function DeleteCategoryPage() {
     return (
       <div className={styles.container}>
         <h2>Categoria não encontrada</h2>
-        <button className={styles.btn} onClick={() => router.push('/categories')}>
+        <button className={styles.btn} onClick={() => router.push('/category')}>
           Voltar
         </button>
       </div>
@@ -35,7 +35,7 @@ export default function DeleteCategoryPage() {
       <p>Deseja realmente excluir a categoria <strong>{category.name}</strong>?</p>
       <div className={styles.actions}>
         <button className={styles.btnDanger} onClick={handleDelete}>Excluir</button>
-        <button className={styles.btnSecondary} onClick={() => router.push('/categories')}>Cancelar</button>
+        <button className={styles.btnSecondary} onClick={() => router.push('/category')}>Cancelar</button>
       </div>
     </div>
   );

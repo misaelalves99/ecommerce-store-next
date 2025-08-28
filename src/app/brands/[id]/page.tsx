@@ -43,7 +43,7 @@ export default function DetailsBrandPage({ params }: PageProps) {
 
   return (
     <div className={styles.pageContainer}>
-      <h1 className={styles.heading}>Marca - Detalhes</h1>
+      <h1 className={styles.heading}>Detalhes da Marca</h1>
       <BrandDetails brand={brand} />
       <div className={styles.actions}>
         <Link href="/brands" className={`btn btn-secondary ${styles.btn}`}>

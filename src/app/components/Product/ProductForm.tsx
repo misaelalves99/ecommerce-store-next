@@ -1,7 +1,5 @@
 // app/components/Product/ProductForm.tsx
 
-// app/components/Product/ProductForm.tsx
-
 'use client';
 
 import { useState, FormEvent } from 'react';

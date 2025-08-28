@@ -1,74 +1,65 @@
-/* src/pages/product/ProductDetailsPage.module.css */
+/* app/products/[id]/DetailsProductPage.module.css */
 
+/* Container principal da página */
+.container {
+  max-width: 48rem;
+  margin: 2rem auto;
+  padding: 2rem 1.5rem;
+  font-family: 'Inter', sans-serif;
+  background-color: #f9fafb;
+  border-radius: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Título principal da página */
 .title {
+  font-size: 1.75rem;
+  font-weight: 700;
   text-align: center;
-  font-size: 1.8rem;
-  color: #333;
+  color: #111827;
   margin-bottom: 1rem;
 }
 
-.card {
-  max-width: 600px;
-  margin: 0 auto;
-  border-radius: 12px;
-  border: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  background-color: #fff;
-}
-
-.cardBody {
-  padding: 2rem;
-}
-
-.cardTitle {
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: #212529;
-  margin-bottom: 1rem;
+/* Mensagem de produto não encontrado */
+.notFound {
   text-align: center;
+  font-size: 1.25rem;
+  color: #6b7280;
+  margin-top: 2rem;
 }
 
-.cardText {
-  font-size: 1rem;
-  color: #555;
-  margin-bottom: 0.6rem;
-}
-
-.cardText strong {
-  color: #212529;
-}
-
+/* Botões */
 .btnPrimary {
-  display: block;
-  width: fit-content;
-  margin: 1rem auto 0 auto;
-  padding: 0.5rem 1.5rem;
-  border-radius: 8px;
+  display: inline-block;
+  background-color: #2563eb;
+  color: #ffffff;
+  padding: 0.65rem 1.5rem;
+  border-radius: 0.5rem;
   font-weight: 600;
-  transition: background-color 0.2s, transform 0.1s;
-  background-color: #0d6efd;
-  color: white;
-  border: none;
   text-decoration: none;
   text-align: center;
-  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease;
+  margin-top: 1rem;
 }
 
 .btnPrimary:hover {
-  background-color: #0b5ed7;
-  transform: scale(1.03);
+  background-color: #1d4ed8;
+  transform: translateY(-1px);
 }
 
-@media (max-width: 576px) {
-  .cardBody {
-    padding: 1rem;
+/* Responsividade */
+@media (max-width: 640px) {
+  .container {
+    padding: 1.5rem 1rem;
   }
 
-  .cardTitle {
-    font-size: 1.2rem;
+  .title {
+    font-size: 1.5rem;
   }
 
-  .cardText {
-    font-size: 0.95rem;
+  .btnPrimary {
+    width: 100%;
   }
 }

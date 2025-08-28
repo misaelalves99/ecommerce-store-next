@@ -45,8 +45,8 @@ export default function EditCategoryPage({ params }: EditCategoryPageProps) {
   }
 
   return (
-    <div className={styles.pageContainer}>
-      <h1 className={styles.heading}>Editar Categoria</h1>
+    <div className={styles.container}>
+      <h1 className={styles.pageTitle}>Editar Categoria</h1>
       <CategoryForm
         initialName={category.name}
         initialDescription={category.description}

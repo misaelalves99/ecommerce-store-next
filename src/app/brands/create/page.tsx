@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import BrandForm from '../../components/Brands/BrandForm';
 import { useContext } from 'react';
 import { BrandContext } from '../../contexts/BrandContext';
+import styles from './CreateBrandPage.module.css';
 
 export default function CreateBrandPage() {
   const router = useRouter();
@@ -21,10 +22,8 @@ export default function CreateBrandPage() {
   };
 
   return (
-    <div>
-      <h1 style={{ textAlign: 'center', fontSize: '1.8rem', color: '#333', marginBottom: '1.5rem' }}>
-        Adicionar Marca
-      </h1>
+    <div className={styles.container}>
+      <h1 className={styles.pageTitle}>Adicionar Marca</h1>
       <BrandForm onSubmit={handleCreate} onCancel={handleCancel} />
     </div>
   );

@@ -28,6 +28,7 @@ export default function EditBrandPage() {
 
   const handleUpdate = (name: string) => {
     console.log('Marca atualizada:', { id, name });
+    // Aqui ficaria a chamada real da API
     router.push('/brands');
   };
 
@@ -38,9 +39,13 @@ export default function EditBrandPage() {
   if (!brand) return <p className={styles.loading}>Carregando marca...</p>;
 
   return (
-    <div className={styles.pageContainer}>
-      <h1 className={styles.heading}>Editar Marca</h1>
-      <BrandForm initialName={brand.name} onSubmit={handleUpdate} onCancel={handleCancel} />
+    <div className={styles.container}>
+      <h1 className={styles.pageTitle}>Editar Marca</h1>
+      <BrandForm
+        initialName={brand.name}
+        onSubmit={handleUpdate}
+        onCancel={handleCancel}
+      />
     </div>
   );
 }

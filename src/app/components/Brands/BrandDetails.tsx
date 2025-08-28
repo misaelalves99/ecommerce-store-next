@@ -10,7 +10,6 @@ interface BrandDetailsProps {
 export default function BrandDetails({ brand }: BrandDetailsProps) {
   return (
     <div className={styles.detailsContainer}>
-      <h2 className={styles.heading}>Detalhes da Marca</h2>
       <div className={styles.detailItem}>
         <strong>ID:</strong> <span>{brand.id}</span>
       </div>
