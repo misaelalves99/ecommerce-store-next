@@ -17,21 +17,21 @@ export default function CategoryList({ categories }: CategoryListProps) {
 
   return (
     <table className={styles.table}>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nome</th>
-          <th>Descrição</th>
-          <th>Ações</th>
+      <thead className={styles.thead}>
+        <tr className={styles.rowHeader}>
+          <th className={styles.cell}>ID</th>
+          <th className={styles.cell}>Nome</th>
+          <th className={styles.cell}>Descrição</th>
+          <th className={styles.cell}>Ações</th>
         </tr>
       </thead>
       <tbody>
         {categories.map((category) => (
-          <tr key={category.id}>
-            <td>{category.id}</td>
-            <td>{category.name}</td>
-            <td>{category.description}</td>
-            <td>
+          <tr key={category.id} className={styles.row}>
+            <td className={styles.cell}>{category.id}</td>
+            <td className={styles.cell}>{category.name}</td>
+            <td className={styles.cell}>{category.description}</td>
+            <td className={`${styles.cell} ${styles.actions}`}>
               <Link
                 href={`/category/${category.id}`}
                 className={`${styles.btn} ${styles.btnInfo}`}

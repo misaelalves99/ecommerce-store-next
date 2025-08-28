@@ -1,39 +1,41 @@
-/* src/pages/Products/ProductList.module.css */
-
-/*
-  ProductPage.module.css
-  ----------------------
-  Styles for the main product list page header and the primary action button.
-*/
+/* app/products/ProductPage.module.css */
 
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 1400px;
+  margin: 2rem auto;
   padding: 2rem 1.5rem;
+  font-family: 'Inter', sans-serif;
+  color: #1f2937;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
-/* Flex container for the title and button */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem; /* Creates space between the header and the table */
 }
 
-.heading {
+.pageHeading {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #2c3e50;
-  margin: 0; /* Remove default margin to control spacing with the parent container */
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin: 0;
+  color: #111827;
 }
 
 .btn {
-  font-weight: 600;
   padding: 0.75rem 1.5rem;
+  font-weight: 600;
   border-radius: 0.5rem;
-  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  text-align: center;
   transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
 }
 
 .btn:hover {
@@ -42,11 +44,11 @@
 }
 
 .btnPrimary {
-  background-color: #007bff; /* Primary blue for main actions */
+  background-color: #2563eb;
   color: #fff;
-  border: 1px solid #007bff;
+  border: 1px solid #2563eb;
 }
 
 .btnPrimary:hover {
-  background-color: #0056b3;
+  background-color: #1d4ed8;
 }

@@ -26,7 +26,7 @@ export default function RootLayout({
           <BrandProvider>
             <CategoryProvider>
               <Navbar />
-              <main className="container" style={{ paddingTop: 20 }}>
+              <main className="container">
                 {children}
               </main>
               <Footer />

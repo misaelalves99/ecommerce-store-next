@@ -16,35 +16,35 @@ export default function BrandList({ brands }: BrandListProps) {
   }
 
   return (
-    <table className={`table table-striped ${styles.table}`}>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nome</th>
-          <th>Ações</th>
+    <table className={styles.table}>
+      <thead className={styles.thead}>
+        <tr className={styles.rowHeader}>
+          <th className={styles.cell}>ID</th>
+          <th className={styles.cell}>Nome</th>
+          <th className={styles.cell}>Ações</th>
         </tr>
       </thead>
       <tbody>
         {brands.map((brand) => (
-          <tr key={brand.id}>
-            <td>{brand.id}</td>
-            <td>{brand.name}</td>
-            <td>
+          <tr key={brand.id} className={styles.row}>
+            <td className={styles.cell}>{brand.id}</td>
+            <td className={styles.cell}>{brand.name}</td>
+            <td className={`${styles.cell} ${styles.actions}`}>
               <Link
                 href={`/brands/${brand.id}`}
-                className={`btn btn-primary btn-sm ${styles.btnDetalhes}`}
+                className={`${styles.btn} ${styles.btnInfo}`}
               >
                 Detalhes
-              </Link>{' '}
+              </Link>
               <Link
                 href={`/brands/edit/${brand.id}`}
-                className={`btn btn-warning btn-sm ${styles.btnEditar}`}
+                className={`${styles.btn} ${styles.btnWarning}`}
               >
                 Editar
-              </Link>{' '}
+              </Link>
               <Link
                 href={`/brands/delete/${brand.id}`}
-                className={`btn btn-danger btn-sm ${styles.btnExcluir}`}
+                className={`${styles.btn} ${styles.btnDanger}`}
               >
                 Excluir
               </Link>

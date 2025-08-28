@@ -38,16 +38,15 @@ export default function BrandForm({ initialName = '', onSubmit, onCancel }: Bran
         />
         {error && <span className={styles.error}>{error}</span>}
       </div>
-      <button type="submit" className={styles.successBtn}>Salvar</button>
-      {onCancel && (
-        <button
-          type="button"
-          className={styles.cancelBtn}
-          onClick={onCancel}
-        >
-          Cancelar
-        </button>
-      )}
+
+      <div className={styles.buttons}>
+        <button type="submit" className={styles.successBtn}>Salvar</button>
+        {onCancel && (
+          <button type="button" className={styles.cancelBtn} onClick={onCancel}>
+            Cancelar
+          </button>
+        )}
+      </div>
     </form>
   );
 }

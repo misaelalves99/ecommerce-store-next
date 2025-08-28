@@ -15,7 +15,7 @@ export default function BrandsPage() {
     <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.heading}>Marcas</h1>
-        <Link href="/brands/create" className={styles.btn}>
+        <Link href="/brands/create" className={`${styles.btn} ${styles.btnPrimary}`}>
           Adicionar Marca
         </Link>
       </div>
