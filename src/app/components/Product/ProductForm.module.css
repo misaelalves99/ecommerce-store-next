@@ -2,67 +2,53 @@
 
 /* Container do formulário */
 .form {
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  font-family: 'Inter', sans-serif;
-  background: none;
-  box-shadow: none;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  max-width: 600px;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #1f2937;
+
+  /* Garante que padding e border não extrapolem a largura */
   box-sizing: border-box;
 }
 
-/* Agrupamento de campo */
+/* Grupo de campos */
 .formGroup {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  gap: 0.5rem;
 }
 
 /* Labels */
 .controlLabel {
-  font-size: 1rem;
   font-weight: 600;
+  font-size: 1rem;
   color: #374151;
-  margin-bottom: 0.5rem;
-  user-select: none;
 }
 
-/* Inputs, textarea e selects uniformes */
+/* Inputs, Textareas e Selects */
 .formControl {
   width: 100%;
-  max-width: 100%;
   padding: 0.75rem 1rem;
   font-size: 1rem;
-  color: #374151;
-  background-color: #ffffff;
+  color: #111827;
+  background-color: #f9fafb;
   border: 1px solid #d1d5db;
-  border-radius: 0.5rem;
-  box-sizing: border-box;
+  border-radius: 0.75rem;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-family: inherit;
+  box-sizing: border-box; /* Corrige largura total */
 }
 
 .formControl:focus {
   outline: none;
   border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-}
-
-/* Mantém seta do select */
-select.formControl {
-  -webkit-appearance: menulist;
-  -moz-appearance: menulist;
-  appearance: menulist;
-  background-color: #ffffff;
-}
-
-/* Textarea específica */
-textarea.formControl {
-  min-height: 120px;
-  resize: vertical;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
 }
 
 /* Checkbox */
@@ -70,61 +56,65 @@ textarea.formControl {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 1rem;
+  margin-top: 1rem;
 }
 
 .formCheckInput {
-  width: 1.25rem;
-  height: 1.25rem;
-  cursor: pointer;
+  width: 1.2rem;
+  height: 1.2rem;
+  accent-color: #2563eb;
 }
 
 .formCheckLabel {
-  font-weight: 600;
+  font-size: 1rem;
   color: #374151;
-  cursor: pointer;
 }
 
-/* Erros */
+/* Mensagens de erro */
 .textDanger {
   color: #dc2626;
   font-size: 0.875rem;
   margin-top: 0.25rem;
-  display: block;
 }
 
 /* Botões */
 .btn {
-  flex: 1 1 auto;
   padding: 0.75rem 1.5rem;
+  font-size: 1rem;
   font-weight: 600;
-  border-radius: 0.5rem;
-  cursor: pointer;
+  border-radius: 0.75rem;
   border: none;
-  text-align: center;
-  transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 120px;
   margin-top: 1rem;
+  text-transform: uppercase;
+  box-sizing: border-box; /* Garante simetria */
 }
 
-.btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-}
-
+/* Botão Salvar / Ativo */
 .btnSuccess {
-  background-color: #2563eb;
-  color: #fff;
-}
-.btnSuccess:hover {
-  background-color: #1d4ed8;
+  background-color: #16a34a;
+  color: #ffffff;
 }
 
-.btnSecondary {
-  background-color: #6b7280;
-  color: #fff;
+.btnSuccess:hover {
+  background-color: #15803d;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(22, 163, 74, 0.3);
 }
+
+/* Botão Cancelar */
+.btnSecondary {
+  background-color: #e5e7eb;
+  color: #1f2937;
+  margin-left: 0.5rem;
+}
+
 .btnSecondary:hover {
-  background-color: #4b5563;
+  background-color: #d1d5db;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* Responsividade */
@@ -132,10 +122,11 @@ textarea.formControl {
   .form {
     padding: 1.5rem;
   }
-}
 
-@media (max-width: 480px) {
-  .btn {
+  .btn,
+  .btnSuccess,
+  .btnSecondary {
     width: 100%;
+    margin-left: 0;
   }
 }

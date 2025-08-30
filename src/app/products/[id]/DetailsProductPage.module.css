@@ -1,65 +1,114 @@
 /* app/products/[id]/DetailsProductPage.module.css */
 
-/* Container principal da página */
 .container {
-  max-width: 48rem;
-  margin: 2rem auto;
-  padding: 2rem 1.5rem;
-  font-family: 'Inter', sans-serif;
-  background-color: #f9fafb;
-  border-radius: 0.75rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  max-width: 900px;
+  margin: 3rem auto;
+  padding: 2.5rem 3rem;
+  background: linear-gradient(135deg, #ffffff, #f9fafb);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: all 0.3s ease;
 }
 
-/* Título principal da página */
+.container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+}
+
 .title {
-  font-size: 1.75rem;
+  font-size: 2rem;
   font-weight: 700;
+  margin-bottom: 2rem;
+  color: #1f2937;
   text-align: center;
-  color: #111827;
-  margin-bottom: 1rem;
+  letter-spacing: 0.5px;
 }
 
-/* Mensagem de produto não encontrado */
-.notFound {
-  text-align: center;
-  font-size: 1.25rem;
-  color: #6b7280;
-  margin-top: 2rem;
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2.5rem;
 }
 
-/* Botões */
-.btnPrimary {
-  display: inline-block;
-  background-color: #2563eb;
-  color: #ffffff;
-  padding: 0.65rem 1.5rem;
-  border-radius: 0.5rem;
+.btnPrimary,
+.btnSecondary {
+  padding: 0.75rem 1.8rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
   font-weight: 600;
-  text-decoration: none;
-  text-align: center;
-  transition: background-color 0.2s ease-in-out, transform 0.1s ease;
-  margin-top: 1rem;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.btnPrimary {
+  background-color: #4f46e5; /* azul elegante */
+  color: #fff;
 }
 
 .btnPrimary:hover {
-  background-color: #1d4ed8;
-  transform: translateY(-1px);
+  background-color: #4338ca;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.35);
+}
+
+.btnSecondary {
+  background-color: #f3f4f6; /* cinza claro */
+  color: #1f2937;
+}
+
+.btnSecondary:hover {
+  background-color: #e5e7eb;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+/* Para o estado de produto não encontrado */
+.notFound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8rem;
+  font-size: 1.3rem;
+  color: #6b7280;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.notFound .btnPrimary {
+  margin-top: 1.5rem;
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  border-radius: 12px;
+  background-color: #4f46e5;
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3);
+}
+
+.notFound .btnPrimary:hover {
+  background-color: #4338ca;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.35);
 }
 
 /* Responsividade */
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .container {
-    padding: 1.5rem 1rem;
+    padding: 2rem 1.5rem;
   }
 
-  .title {
-    font-size: 1.5rem;
+  .actions {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: stretch;
   }
 
-  .btnPrimary {
+  .btnPrimary,
+  .btnSecondary {
     width: 100%;
   }
 }

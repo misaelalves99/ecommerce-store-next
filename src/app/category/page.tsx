@@ -14,7 +14,10 @@ export default function CategoryPage() {
     <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.heading}>Categorias</h1>
-        <Link href="/category/create" className={`${styles.btn} ${styles.btnPrimary}`}>
+        <Link
+          href="/category/create"
+          className={`${styles.btn} ${styles.btnPrimary}`}
+        >
           Adicionar Categoria
         </Link>
       </div>

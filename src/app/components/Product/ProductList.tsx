@@ -16,39 +16,41 @@ export default function ProductList({ products }: ProductListProps) {
   }
 
   return (
-    <table className={styles.table}>
-      <thead className={styles.thead}>
-        <tr className={styles.rowHeader}>
-          <th className={styles.cell}>Nome</th>
-          <th className={styles.cell}>SKU</th>
-          <th className={styles.cell}>Preço</th>
-          <th className={styles.cell}>Estoque</th>
-          <th className={styles.cell}>Categoria</th>
-          <th className={styles.cell}>Marca</th>
-          <th className={styles.cell}>Status</th>
-          <th className={styles.cell}>Ações</th>
+    <table className={styles.ProductList}>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Preço</th>
+          <th>Categoria</th>
+          <th>Marca</th>
+          <th>Status</th>
+          <th>Ações</th>
         </tr>
       </thead>
       <tbody>
         {products.map((product) => (
-          <tr key={product.id} className={styles.row}>
-            <td className={styles.cell}>{product.name}</td>
-            <td className={styles.cell}>{product.sku}</td>
-            <td className={styles.cell}>
+          <tr key={product.id}>
+            <td>{product.id}</td>
+            <td>{product.name}</td>
+            <td>
               {product.price.toLocaleString('pt-BR', {
                 style: 'currency',
                 currency: 'BRL',
               })}
             </td>
-            <td className={styles.cell}>{product.stock}</td>
-            <td className={styles.cell}>{product.category?.name ?? '-'}</td>
-            <td className={styles.cell}>{product.brand?.name ?? '-'}</td>
-            <td className={styles.cell}>
-              <span className={product.isActive ? styles.badgeSuccess : styles.badgeSecondary}>
+            <td>{product.category?.name ?? '-'}</td>
+            <td>{product.brand?.name ?? '-'}</td>
+            <td>
+              <span
+                className={`${styles.badge} ${
+                  product.isActive ? styles.badgeSuccess : styles.badgeSecondary
+                }`}
+              >
                 {product.isActive ? 'Ativo' : 'Inativo'}
               </span>
             </td>
-            <td className={`${styles.cell} ${styles.actions}`}>
+            <td>
               <Link href={`/products/${product.id}`} className={`${styles.btn} ${styles.btnInfo}`}>
                 Detalhes
               </Link>

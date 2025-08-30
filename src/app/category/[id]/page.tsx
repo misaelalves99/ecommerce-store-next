@@ -1,18 +1,19 @@
 // app/categories/[id]/page.tsx
 
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { useRouter, useParams } from "next/navigation";
-import Link from "next/link";
-import CategoryDetails from "../../components/Category/CategoryDetails";
-import { Category } from "../../types/Category";
-import { categories as mockCategories } from "../../mocks/categories";
-import styles from "./DetailsCategoryPage.module.css";
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import CategoryDetails from '../../components/Category/CategoryDetails';
+import { Category } from '../../types/Category';
+import { categories as mockCategories } from '../../mocks/categories';
+import styles from './DetailsCategoryPage.module.css';
 
-export default function DetailsCategoryPage() {
-  const { id } = useParams<{ id: string }>();
+export default function DetailsCategoryPage({ params }: { params: { id: string } }) {
   const router = useRouter();
+  const { id } = params;
+
   const [category, setCategory] = useState<Category | null>(null);
 
   useEffect(() => {
@@ -21,8 +22,8 @@ export default function DetailsCategoryPage() {
       if (foundCategory) {
         setCategory(foundCategory);
       } else {
-        alert("Categoria não encontrada.");
-        router.push("/categories");
+        alert('Categoria não encontrada.');
+        router.push('/category');
       }
     }
   }, [id, router]);
@@ -33,16 +34,13 @@ export default function DetailsCategoryPage() {
 
   return (
     <div className={styles.pageContainer}>
-      <h1 className={styles.heading}>Detalhes da Categoria</h1>
+      <h2 className={styles.title}>Detalhes da Categoria</h2>
       <CategoryDetails category={category} />
       <div className={styles.actions}>
         <Link href="/category" className={`btn btn-secondary ${styles.btn}`}>
           Voltar
         </Link>
-        <Link
-          href={`/category/edit/${category.id}`}
-          className={`btn btn-warning ${styles.btn}`}
-        >
+        <Link href={`/category/edit/${category.id}`} className={`btn btn-warning ${styles.btn}`}>
           Editar
         </Link>
       </div>

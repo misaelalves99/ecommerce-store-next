@@ -188,7 +188,13 @@ export default function ProductForm({
       </div>
 
       <button type="submit" className={`${styles.btn} ${styles.btnSuccess}`}>{submitLabel}</button>
-      <button type="button" className={`${styles.btn} ${styles.btnSecondary}`} onClick={onCancel}>Cancelar</button>
+      <button
+        type="button"
+        className={`${styles.btn} ${styles.btnSecondary}`}
+        onClick={onCancel}
+      >
+        Cancelar
+      </button>
     </form>
   );
 }

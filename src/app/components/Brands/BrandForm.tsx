@@ -11,7 +11,11 @@ interface BrandFormProps {
   onCancel?: () => void;
 }
 
-export default function BrandForm({ initialName = '', onSubmit, onCancel }: BrandFormProps) {
+export default function BrandForm({
+  initialName = '',
+  onSubmit,
+  onCancel,
+}: BrandFormProps) {
   const [name, setName] = useState(initialName);
   const [error, setError] = useState('');
 
@@ -27,6 +31,7 @@ export default function BrandForm({ initialName = '', onSubmit, onCancel }: Bran
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
+      {/* Campo Nome */}
       <div className={styles.formGroup}>
         <label className={styles.label}>Nome da Marca</label>
         <input
@@ -39,10 +44,17 @@ export default function BrandForm({ initialName = '', onSubmit, onCancel }: Bran
         {error && <span className={styles.error}>{error}</span>}
       </div>
 
+      {/* Botões */}
       <div className={styles.buttons}>
-        <button type="submit" className={styles.successBtn}>Salvar</button>
+        <button type="submit" className={styles.successBtn}>
+          Salvar
+        </button>
         {onCancel && (
-          <button type="button" className={styles.cancelBtn} onClick={onCancel}>
+          <button
+            type="button"
+            className={styles.cancelBtn}
+            onClick={onCancel}
+          >
             Cancelar
           </button>
         )}

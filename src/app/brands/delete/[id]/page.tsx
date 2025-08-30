@@ -1,41 +1,52 @@
+// app/brands/delete/[id]/page.tsx
+
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useBrands } from '../../../hooks/useBrands';
+import { Brand } from '../../../types/Brand';
 import styles from './DeleteBrandPage.module.css';
 
 export default function DeleteBrandPage() {
-  const { id } = useParams();
   const router = useRouter();
-  const { brands, removeBrand } = useBrands();
+  const params = useParams();
+  const { id } = params as { id: string };
 
-  const brand = brands.find((b) => b.id === Number(id));
+  const { brands, removeBrand } = useBrands(); // <-- use removeBrand
+  const [brand, setBrand] = useState<Brand | null>(null);
 
-  if (!brand) {
-    return (
-      <div className={styles.container}>
-        <h2>Marca não encontrada</h2>
-        <button className={styles.btn} onClick={() => router.push('/brands')}>
-          Voltar
-        </button>
-      </div>
-    );
-  }
+  // Buscar marca pelo ID
+  useEffect(() => {
+    const found = brands.find((b) => b.id === Number(id)) || null;
+    setBrand(found);
+  }, [id, brands]);
+
+  if (!brand) return <div className={styles.loading}>Carregando...</div>;
 
   const handleDelete = () => {
-    if (window.confirm(`Tem certeza que deseja excluir a marca "${brand.name}"?`)) {
-      removeBrand(brand.id);
-      router.push('/brands');
-    }
+    if (!window.confirm(`Tem certeza que deseja excluir a marca "${brand.name}"?`)) return;
+
+    removeBrand(brand.id); // <-- corrigido
+    router.push('/brands');
   };
+
+  const handleCancel = () => router.push('/brands');
 
   return (
     <div className={styles.container}>
-      <h2>Excluir Marca</h2>
-      <p>Deseja realmente excluir a marca <strong>{brand.name}</strong>?</p>
-      <div className={styles.actions}>
-        <button className={styles.btnDanger} onClick={handleDelete}>Excluir</button>
-        <button className={styles.btnSecondary} onClick={() => router.push('/brands')}>Cancelar</button>
+      <h1 className={styles.title}>Excluir Marca</h1>
+      <p className={styles.message}>
+        Tem certeza que deseja excluir a marca <strong>{brand.name}</strong>?
+      </p>
+      <div className={styles.buttonGroup}>
+        <button className={`${styles.btn} ${styles.btnDanger}`} onClick={handleDelete}>
+          Excluir
+        </button>
+        <button className={`${styles.btn} ${styles.btnSecondary}`} onClick={handleCancel}>
+          Cancelar
+        </button>
       </div>
     </div>
   );

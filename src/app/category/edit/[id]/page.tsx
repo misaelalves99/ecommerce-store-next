@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import CategoryForm from '../../../components/Category/CategoryForm';
 import { Category } from '../../../types/Category';
-import { categories as mockCategories } from '../../../mocks/categories';
+import { useCategories } from '../../../hooks/useCategories'; // hook do contexto
 import styles from './EditCategoryPage.module.css';
 
 interface EditCategoryPageProps {
@@ -16,31 +16,41 @@ interface EditCategoryPageProps {
 export default function EditCategoryPage({ params }: EditCategoryPageProps) {
   const { id } = params;
   const router = useRouter();
+
+  const { categories, updateCategory } = useCategories();
+
   const [category, setCategory] = useState<Category | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (id) {
-      const foundCategory = mockCategories.find((c) => c.id === Number(id));
-      if (foundCategory) {
-        setCategory(foundCategory);
-      } else {
-        alert('Categoria não encontrada.');
-        router.push('/category');
-      }
+    if (!id) {
+      router.push('/category');
+      return;
     }
-  }, [id, router]);
+
+    const found = categories.find((c) => c.id === Number(id)) ?? null;
+    if (!found) {
+      alert('Categoria não encontrada.');
+      router.push('/category');
+      return;
+    }
+
+    setCategory(found);
+    setLoading(false);
+  }, [id, categories, router]);
 
   const handleUpdate = (data: { name: string; description: string }) => {
-    console.log('Categoria atualizada:', { id, ...data });
-    // Aqui ficaria a lógica real de atualização via API
-    router.push('/category');
+    if (category) {
+      updateCategory(category.id, data); // atualiza no contexto
+      router.push('/category');
+    }
   };
 
   const handleCancel = () => {
     router.push('/category');
   };
 
-  if (!category) {
+  if (loading || !category) {
     return <p className={styles.loading}>Carregando categoria...</p>;
   }
 

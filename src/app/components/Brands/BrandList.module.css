@@ -1,6 +1,6 @@
 /* src/components/Brand/BrandList.module.css */
 
-.table {
+.BrandList {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
@@ -11,42 +11,55 @@
   font-size: 1rem;
 }
 
-.thead {
+.BrandList thead {
   background-color: #34495e;
   color: #fff;
-  text-align: left;
 }
 
-.row:hover {
-  background-color: #f8f9fa;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.cell {
+.BrandList th,
+.BrandList td {
   padding: 1.25rem 1.5rem;
   border-bottom: 1px solid #e9ecef;
   vertical-align: middle;
 }
 
-.cell:last-child {
+.BrandList th {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.BrandList th:last-child,
+.BrandList td:last-child {
+  text-align: center;
+}
+
+.BrandList td:last-child {
   text-align: center;
   white-space: nowrap;
 }
 
-.row:last-child .cell {
+.BrandList tbody tr:last-child td {
   border-bottom: none;
 }
 
-.rowHeader .cell {
+.BrandList th {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   font-size: 0.9rem;
 }
 
-/* Botões */
-.btn {
+.BrandList tbody tr:hover {
+  background-color: #f8f9fa;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+/* Botões com escopo BrandList */
+.BrandList .btn {
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
   font-weight: 600;
@@ -57,58 +70,50 @@
   text-decoration: none;
   transition: all 0.2s ease;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  margin-right: 0.5rem;
+  margin-left: 0.3rem;
 }
 
-.btn:hover {
+.BrandList .btn:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-.btnInfo {
+.BrandList .btnInfo {
   background-color: #17a2b8;
   color: #fff;
 }
 
-.btnInfo:hover {
+.BrandList .btnInfo:hover {
   background-color: #117a8b;
 }
 
-.btnWarning {
+.BrandList .btnWarning {
   background-color: #ffc107;
   color: #212529;
 }
 
-.btnWarning:hover {
+.BrandList .btnWarning:hover {
   background-color: #d39e00;
 }
 
-.btnDanger {
+.BrandList .btnDanger {
   background-color: #dc3545;
   color: #fff;
 }
 
-.btnDanger:hover {
+.BrandList .btnDanger:hover {
   background-color: #c82333;
 }
 
-/* Agrupamento de ações */
-.actions {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-/* Mensagem quando não há marcas */
-.empty {
+/* Mensagem de vazio */
+.BrandList .empty {
   text-align: center;
   padding: 2rem;
   font-size: 1.25rem;
   color: #6c757d;
 }
 
-/* Detalhes individuais da marca */
+/* Optional: detalhes individuais da marca */
 .detailsContainer {
   background-color: #fff;
   padding: 1.8rem;

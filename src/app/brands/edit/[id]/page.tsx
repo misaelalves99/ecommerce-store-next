@@ -2,41 +2,57 @@
 
 'use client';
 
-import { useRouter, usePathname } from 'next/navigation';
-import BrandForm from '../../../components/Brands/BrandForm';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import BrandForm from '../../../components/Brands/BrandForm';
 import { Brand } from '../../../types/Brand';
-import { brands as mockBrands } from '../../../mocks/brands';
+import { useBrands } from '../../../hooks/useBrands';
 import styles from './EditBrandPage.module.css';
 
-export default function EditBrandPage() {
+interface EditBrandPageProps {
+  params: { id: string };
+}
+
+export default function EditBrandPage({ params }: EditBrandPageProps) {
+  const { id } = params;
   const router = useRouter();
-  const pathname = usePathname();
-  const id = Number(pathname.split('/')[3]);
+
+  const { brands, updateBrand } = useBrands();
 
   const [brand, setBrand] = useState<Brand | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const foundBrand = mockBrands.find((b) => b.id === id);
-    if (foundBrand) {
-      setBrand(foundBrand);
-    } else {
+    if (!id) {
+      router.push('/brands');
+      return;
+    }
+
+    const found = brands.find((b) => b.id === Number(id)) ?? null;
+    if (!found) {
       alert('Marca não encontrada.');
       router.push('/brands');
+      return;
     }
-  }, [id, router]);
+
+    setBrand(found);
+    setLoading(false);
+  }, [id, brands, router]);
 
   const handleUpdate = (name: string) => {
-    console.log('Marca atualizada:', { id, name });
-    // Aqui ficaria a chamada real da API
-    router.push('/brands');
+    if (brand) {
+      updateBrand(brand.id, name);
+      router.push('/brands');
+    }
   };
 
   const handleCancel = () => {
     router.push('/brands');
   };
 
-  if (!brand) return <p className={styles.loading}>Carregando marca...</p>;
+  if (loading || !brand) {
+    return <p className={styles.loading}>Carregando marca...</p>;
+  }
 
   return (
     <div className={styles.container}>

@@ -2,53 +2,52 @@
 
 /* Container do formulário */
 .form {
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  font-family: 'Inter', sans-serif;
-  background: none;
-  box-shadow: none;
-  box-sizing: border-box;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #1f2937;
+  box-sizing: border-box; /* Corrige largura total */
 }
 
-/* Agrupamento de campo */
+/* Grupo de campos */
 .formGroup {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  gap: 0.5rem;
+  box-sizing: border-box;
 }
 
 /* Labels */
 .label {
-  font-size: 1rem;
   font-weight: 600;
+  font-size: 1rem;
   color: #374151;
-  margin-bottom: 0.5rem;
-  user-select: none;
 }
 
-/* Inputs */
+/* Input */
 .input {
   width: 100%;
-  max-width: 100%;
   padding: 0.75rem 1rem;
   font-size: 1rem;
-  color: #374151;
-  background-color: #ffffff;
+  color: #111827;
+  background-color: #f9fafb;
   border: 1px solid #d1d5db;
-  border-radius: 0.5rem;
-  box-sizing: border-box;
+  border-radius: 0.75rem;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-family: inherit;
+  box-sizing: border-box; /* Corrige simetria */
 }
 
 .input:focus {
   outline: none;
   border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
 }
 
 /* Mensagem de erro */
@@ -56,44 +55,47 @@
   color: #dc2626;
   font-size: 0.875rem;
   margin-top: 0.25rem;
-  display: block;
-}
-
-/* Container de botões */
-.buttons {
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
-  flex-wrap: wrap;
 }
 
 /* Botões */
 .successBtn,
 .cancelBtn {
-  flex: 1 1 auto;
   padding: 0.75rem 1.5rem;
+  font-size: 1rem;
   font-weight: 600;
-  border-radius: 0.5rem;
-  cursor: pointer;
+  border-radius: 0.75rem;
   border: none;
-  text-align: center;
-  transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 120px;
+  margin-top: 1rem;
+  text-transform: uppercase;
+  box-sizing: border-box; /* Corrige simetria */
 }
 
+/* Botão salvar */
 .successBtn {
-  background-color: #2563eb;
-  color: #fff;
-}
-.successBtn:hover {
-  background-color: #1d4ed8;
+  background-color: #16a34a;
+  color: #ffffff;
 }
 
-.cancelBtn {
-  background-color: #6b7280;
-  color: #fff;
+.successBtn:hover {
+  background-color: #15803d;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(22, 163, 74, 0.3);
 }
+
+/* Botão cancelar */
+.cancelBtn {
+  background-color: #e5e7eb;
+  color: #1f2937;
+  margin-left: 0.5rem;
+}
+
 .cancelBtn:hover {
-  background-color: #4b5563;
+  background-color: #d1d5db;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* Responsividade */
@@ -101,15 +103,10 @@
   .form {
     padding: 1.5rem;
   }
-}
-
-@media (max-width: 480px) {
-  .buttons {
-    flex-direction: column;
-  }
 
   .successBtn,
   .cancelBtn {
     width: 100%;
+    margin-left: 0;
   }
 }

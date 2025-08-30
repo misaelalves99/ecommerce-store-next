@@ -1,44 +1,50 @@
 // app/products/[id]/page.tsx
 
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import ProductDetails from "../../components/Product/ProductDetails";
-import { Product } from "../../types/Product";
-import { products as mockProducts } from "../../mocks/products";
-import styles from "./DetailsProductPage.module.css";
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import ProductDetails from '../../components/Product/ProductDetails';
+import { Product } from '../../types/Product';
+import { products as mockProducts } from '../../mocks/products';
+import styles from './DetailsProductPage.module.css';
 
-export default function DetailsProductPage() {
-  const { id } = useParams<{ id: string }>();
+export default function DetailsProductPage({ params }: { params: { id: string } }) {
+  const router = useRouter();
+  const { id } = params;
+
   const [product, setProduct] = useState<Product | null>(null);
 
   useEffect(() => {
-    if (id) {
-      const found = mockProducts.find((p) => p.id === Number(id));
-      setProduct(found ?? null);
-    }
+    const found = mockProducts.find((p) => p.id === Number(id));
+    setProduct(found ?? null);
   }, [id]);
 
   if (!product) {
     return (
-      <div className={styles.title}>
+      <div className={styles.notFound}>
         Produto não encontrado.
-        <br />
-        <Link href="/products" className={styles.btnPrimary}>
+        <button className={styles.btnPrimary} onClick={() => router.push('/products')}>
           Voltar
-        </Link>
+        </button>
       </div>
     );
   }
 
+  const handleEdit = () => router.push(`/products/edit/${product.id}`);
+
   return (
-    <div>
+    <div className={styles.container}>
+      <h1 className={styles.title}>Detalhes do Produto</h1>
       <ProductDetails product={product} />
-      <Link href="/products" className={styles.btnPrimary}>
-        Voltar
-      </Link>
+      <div className={styles.actions}>
+        <button className={styles.btnPrimary} onClick={() => router.push('/products')}>
+          Voltar
+        </button>
+        <button className={styles.btnSecondary} onClick={handleEdit}>
+          Editar
+        </button>
+      </div>
     </div>
   );
 }

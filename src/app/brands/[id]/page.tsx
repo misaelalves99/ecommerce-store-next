@@ -4,38 +4,28 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import BrandDetails from '../../components/Brands/BrandDetails';
 import { Brand } from '../../types/Brand';
 import { brands as mockBrands } from '../../mocks/brands';
 import styles from './DetailsBrandPage.module.css';
 
-type PageProps = {
-  params: Promise<{ id: string }> | { id: string };
-};
-
-export default function DetailsBrandPage({ params }: PageProps) {
-  const [brand, setBrand] = useState<Brand | null>(null);
+export default function DetailsBrandPage({ params }: { params: { id: string } }) {
   const router = useRouter();
+  const { id } = params;
+
+  const [brand, setBrand] = useState<Brand | null>(null);
 
   useEffect(() => {
-    const load = async () => {
-      const resolvedParams = await params;
-      const { id } = resolvedParams;
-
-      if (id) {
-        const foundBrand = mockBrands.find((b) => b.id === Number(id));
-        if (foundBrand) {
-          setBrand(foundBrand);
-        } else {
-          alert('Marca não encontrada.');
-          router.push('/brands');
-        }
+    if (id) {
+      const foundBrand = mockBrands.find((b) => b.id === Number(id));
+      if (foundBrand) {
+        setBrand(foundBrand);
+      } else {
+        alert('Marca não encontrada.');
+        router.push('/brands');
       }
-    };
-
-    load();
-  }, [params, router]);
+    }
+  }, [id, router]);
 
   if (!brand) {
     return <p className={styles.loading}>Carregando detalhes da marca...</p>;
@@ -43,18 +33,21 @@ export default function DetailsBrandPage({ params }: PageProps) {
 
   return (
     <div className={styles.pageContainer}>
-      <h1 className={styles.heading}>Detalhes da Marca</h1>
+      <h2 className={styles.title}>Detalhes da Marca</h2>
       <BrandDetails brand={brand} />
       <div className={styles.actions}>
-        <Link href="/brands" className={`btn btn-secondary ${styles.btn}`}>
+        <button
+          className={`btn btn-secondary ${styles.btn}`}
+          onClick={() => router.push('/brands')}
+        >
           Voltar
-        </Link>
-        <Link
-          href={`/brands/edit/${brand.id}`}
+        </button>
+        <button
           className={`btn btn-warning ${styles.btn}`}
+          onClick={() => router.push(`/brands/edit/${brand.id}`)}
         >
           Editar
-        </Link>
+        </button>
       </div>
     </div>
   );
