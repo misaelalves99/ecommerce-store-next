@@ -9,7 +9,9 @@ import '@testing-library/jest-dom';
 
 describe('ProductProvider', () => {
   const TestComponent = () => {
-    const { products, addProduct } = useContext(ProductContext)!;
+    const context = useContext(ProductContext)!;
+    const { products, addProduct } = context;
+
     return (
       <div>
         <ul data-testid="product-list">
@@ -20,7 +22,6 @@ describe('ProductProvider', () => {
         <button
           onClick={() =>
             addProduct({
-              id: 0,
               name: 'Novo Produto',
               description: 'Descrição',
               sku: 'SKU001',

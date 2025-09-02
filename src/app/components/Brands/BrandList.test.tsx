@@ -6,8 +6,8 @@ import { Brand } from '../../types/Brand';
 
 describe('BrandList', () => {
   const mockBrands: Brand[] = [
-    { id: 1, name: 'Marca A', createdAt: new Date().toISOString() },
-    { id: 2, name: 'Marca B', createdAt: new Date().toISOString() },
+    { id: 1, name: 'Marca A', createdAt: new Date().toISOString(), isActive: true },
+    { id: 2, name: 'Marca B', createdAt: new Date().toISOString(), isActive: false },
   ];
 
   beforeEach(() => {
@@ -27,14 +27,14 @@ describe('BrandList', () => {
       expect(screen.getByText(brand.id.toString())).toBeInTheDocument();
       expect(screen.getByText(brand.name)).toBeInTheDocument();
 
-      // verificar href de links separadamente
       const detalhesLink = screen.getByText('Detalhes').closest('a');
       expect(detalhesLink).toHaveAttribute('href', `/brands/${brand.id}`);
 
       const editarLink = screen.getByText('Editar').closest('a');
       expect(editarLink).toHaveAttribute('href', `/brands/edit/${brand.id}`);
 
-      expect(screen.getByText('Excluir')).toBeInTheDocument();
+      const excluirLink = screen.getByText('Excluir').closest('a');
+      expect(excluirLink).toHaveAttribute('href', `/brands/delete/${brand.id}`);
     });
   });
 

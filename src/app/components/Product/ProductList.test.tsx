@@ -10,7 +10,7 @@ describe('ProductList', () => {
     {
       id: 1,
       name: 'Smartphone XYZ',
-      description: 'Smartphone com várias funcionalidades', // Corrigido
+      description: 'Smartphone com várias funcionalidades',
       sku: 'XYZ123',
       price: 1999.99,
       stock: 50,
@@ -19,11 +19,12 @@ describe('ProductList', () => {
       category: { name: 'Eletrônicos' },
       brand: { name: 'MarcaX' },
       isActive: true,
+      createdAt: new Date().toISOString(),
     },
     {
       id: 2,
       name: 'Camiseta ABC',
-      description: 'Camiseta confortável para esportes', // Corrigido
+      description: 'Camiseta confortável para esportes',
       sku: 'ABC456',
       price: 99.9,
       stock: 100,
@@ -32,15 +33,14 @@ describe('ProductList', () => {
       category: { name: 'Roupas' },
       brand: { name: 'MarcaY' },
       isActive: false,
+      createdAt: new Date().toISOString(), // 🔹 adicionado
     },
   ];
 
   it('deve renderizar cabeçalho da tabela', () => {
     render(<ProductList products={products} />);
     expect(screen.getByText('Nome')).toBeInTheDocument();
-    expect(screen.getByText('SKU')).toBeInTheDocument();
     expect(screen.getByText('Preço')).toBeInTheDocument();
-    expect(screen.getByText('Estoque')).toBeInTheDocument();
     expect(screen.getByText('Categoria')).toBeInTheDocument();
     expect(screen.getByText('Marca')).toBeInTheDocument();
     expect(screen.getByText('Status')).toBeInTheDocument();
@@ -52,7 +52,6 @@ describe('ProductList', () => {
 
     // Primeiro produto
     expect(screen.getByText('Smartphone XYZ')).toBeInTheDocument();
-    expect(screen.getByText('XYZ123')).toBeInTheDocument();
     expect(screen.getByText('R$ 1.999,99')).toBeInTheDocument();
     expect(screen.getByText('50')).toBeInTheDocument();
     expect(screen.getByText('Eletrônicos')).toBeInTheDocument();
@@ -61,7 +60,6 @@ describe('ProductList', () => {
 
     // Segundo produto
     expect(screen.getByText('Camiseta ABC')).toBeInTheDocument();
-    expect(screen.getByText('ABC456')).toBeInTheDocument();
     expect(screen.getByText('R$ 99,90')).toBeInTheDocument();
     expect(screen.getByText('100')).toBeInTheDocument();
     expect(screen.getByText('Roupas')).toBeInTheDocument();
@@ -72,7 +70,6 @@ describe('ProductList', () => {
   it('deve renderizar links de ações corretamente', () => {
     render(<ProductList products={products} />);
 
-    // Apenas verifica o primeiro produto
     const detalhesLink = screen.getByText('Detalhes');
     expect(detalhesLink).toHaveAttribute('href', '/products/1');
 

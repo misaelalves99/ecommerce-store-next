@@ -1,5 +1,4 @@
 // app/components/Product/ProductDetails.test.tsx
-
 import { render, screen } from '@testing-library/react';
 import ProductDetails from './ProductDetails';
 import type { Product } from '../../types/Product';
@@ -15,16 +14,16 @@ describe('ProductDetails', () => {
     stock: 50,
     categoryId: 1,
     brandId: 1,
-    category: { name: 'Eletrônicos' }, // apenas name, opcional
-    brand: { name: 'MarcaX' },         // apenas name, opcional
+    category: { name: 'Eletrônicos' },
+    brand: { name: 'MarcaX' },
     isActive: true,
+    createdAt: new Date().toISOString(), // necessário
   };
 
   it('deve renderizar corretamente todas as informações do produto', () => {
     render(<ProductDetails product={mockProduct} />);
 
     expect(screen.getByText(mockProduct.name)).toBeInTheDocument();
-
     expect(screen.getByText('Descrição:')).toBeInTheDocument();
     expect(screen.getByText(mockProduct.description)).toBeInTheDocument();
 

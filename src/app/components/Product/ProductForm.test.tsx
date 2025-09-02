@@ -26,6 +26,7 @@ describe('ProductForm', () => {
     categoryId: 0,
     brandId: 0,
     isActive: true,
+    createdAt: new Date().toISOString(), // 🔹 adicionado
   };
 
   const mockOnSubmit = jest.fn();

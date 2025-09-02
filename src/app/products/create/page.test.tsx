@@ -23,6 +23,8 @@ describe('CreateProductPage', () => {
     jest.spyOn(useProductsHook, 'useProducts').mockReturnValue({
       products: [],
       addProduct: addProductMock,
+      removeProduct: jest.fn(), // 🔹 obrigatório para ProductContextType
+      updateProduct: jest.fn(), // 🔹 obrigatório para ProductContextType
     });
   });
 

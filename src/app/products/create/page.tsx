@@ -23,6 +23,7 @@ export default function CreateProductPage() {
     categoryId: 0,
     brandId: 0,
     isActive: true,
+    createdAt: new Date().toISOString(), // 🔹 adicionado
   };
 
   const handleSave = async (newProduct: Product) => {

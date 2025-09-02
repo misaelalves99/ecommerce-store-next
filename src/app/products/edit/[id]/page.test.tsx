@@ -4,33 +4,29 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import EditProductPage from './page';
 import * as nextNavigation from 'next/navigation';
 import { products as mockProducts } from '../../../mocks/products';
+import '@testing-library/jest-dom';
 
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
-  useParams: jest.fn(),
 }));
 
 describe('EditProductPage', () => {
   const pushMock = jest.fn();
   const useRouterMock = nextNavigation.useRouter as jest.Mock;
-  const useParamsMock = nextNavigation.useParams as jest.Mock;
 
   beforeEach(() => {
     jest.clearAllMocks();
     useRouterMock.mockReturnValue({ push: pushMock });
   });
 
-  it('deve renderizar "Carregando..." se o produto não for encontrado imediatamente', () => {
-    useParamsMock.mockReturnValue({ id: '9999' });
-    render(<EditProductPage />);
+  it('deve renderizar "Carregando..." se o produto não for encontrado', () => {
+    render(<EditProductPage params={{ id: '9999' }} />);
     expect(screen.getByText(/Carregando/i)).toBeInTheDocument();
   });
 
   it('deve renderizar o formulário com dados do produto existente', async () => {
     const product = mockProducts[0];
-    useParamsMock.mockReturnValue({ id: String(product.id) });
-
-    render(<EditProductPage />);
+    render(<EditProductPage params={{ id: String(product.id) }} />);
 
     // Espera até o efeito carregar os dados
     await waitFor(() => {
@@ -43,25 +39,21 @@ describe('EditProductPage', () => {
 
   it('botão cancelar deve chamar router.push', async () => {
     const product = mockProducts[0];
-    useParamsMock.mockReturnValue({ id: String(product.id) });
+    render(<EditProductPage params={{ id: String(product.id) }} />);
 
-    render(<EditProductPage />);
-
-    const cancelButton = screen.getByText(/Cancelar/i);
+    const cancelButton = await screen.findByText(/Cancelar/i);
     fireEvent.click(cancelButton);
     expect(pushMock).toHaveBeenCalledWith('/products');
   });
 
   it('submeter formulário deve chamar handleSave e router.push', async () => {
     const product = mockProducts[0];
-    useParamsMock.mockReturnValue({ id: String(product.id) });
-
-    render(<EditProductPage />);
+    render(<EditProductPage params={{ id: String(product.id) }} />);
 
     const submitButton = await screen.findByText(/Salvar/i);
     fireEvent.click(submitButton);
 
-    // Apenas verificamos se o push foi chamado (handleSave faz console.log)
+    // Apenas verificamos se o push foi chamado (handleSave faz updateProduct e router.push)
     await waitFor(() => expect(pushMock).toHaveBeenCalledWith('/products'));
   });
 });

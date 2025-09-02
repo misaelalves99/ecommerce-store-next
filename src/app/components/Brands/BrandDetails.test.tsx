@@ -1,4 +1,5 @@
 // app/components/Brand/BrandDetails.test.tsx
+
 import { render, screen } from '@testing-library/react';
 import BrandDetails from './BrandDetails';
 import { Brand } from '../../types/Brand';
@@ -8,6 +9,7 @@ describe('BrandDetails', () => {
     id: 1,
     name: 'Marca Teste',
     createdAt: new Date().toISOString(),
+    isActive: true,
   };
 
   it('renderiza os detalhes da marca corretamente', () => {
@@ -18,5 +20,7 @@ describe('BrandDetails', () => {
     expect(screen.getByText('1')).toBeInTheDocument();
     expect(screen.getByText(/Nome:/i)).toBeInTheDocument();
     expect(screen.getByText('Marca Teste')).toBeInTheDocument();
+    expect(screen.getByText(/Status:/i)).toBeInTheDocument();
+    expect(screen.getByText('Ativo')).toBeInTheDocument();
   });
 });

@@ -7,14 +7,14 @@ import { Brand } from '../types/Brand';
 import '@testing-library/jest-dom';
 
 const mockBrands: Brand[] = [
-  { id: 1, name: 'Marca 1', createdAt: new Date().toISOString() },
-  { id: 2, name: 'Marca 2', createdAt: new Date().toISOString() },
+  { id: 1, name: 'Marca 1', createdAt: new Date().toISOString(), isActive: true },
+  { id: 2, name: 'Marca 2', createdAt: new Date().toISOString(), isActive: true },
 ];
 
 describe('BrandsPage', () => {
   it('renderiza título e botão de adicionar marca', () => {
     render(
-      <BrandContext.Provider value={{ brands: mockBrands, addBrand: jest.fn() }}>
+      <BrandContext.Provider value={{ brands: mockBrands, addBrand: jest.fn(), removeBrand: jest.fn(), updateBrand: jest.fn() }}>
         <BrandsPage />
       </BrandContext.Provider>
     );
@@ -25,7 +25,7 @@ describe('BrandsPage', () => {
 
   it('renderiza a lista de marcas', () => {
     render(
-      <BrandContext.Provider value={{ brands: mockBrands, addBrand: jest.fn() }}>
+      <BrandContext.Provider value={{ brands: mockBrands, addBrand: jest.fn(), removeBrand: jest.fn(), updateBrand: jest.fn() }}>
         <BrandsPage />
       </BrandContext.Provider>
     );

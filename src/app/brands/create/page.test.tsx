@@ -14,17 +14,23 @@ jest.mock('next/navigation', () => ({
 describe('CreateBrandPage', () => {
   const pushMock = jest.fn();
   const addBrandMock = jest.fn();
+  const removeBrandMock = jest.fn();
+  const updateBrandMock = jest.fn();
 
   beforeEach(() => {
     (useRouter as jest.Mock).mockReturnValue({ push: pushMock });
     pushMock.mockClear();
     addBrandMock.mockClear();
+    removeBrandMock.mockClear();
+    updateBrandMock.mockClear();
   });
 
   const renderWithContext = () => {
     const contextValue: BrandContextType = {
-      brands: [],        // necessário para satisfazer o tipo
+      brands: [], 
       addBrand: addBrandMock,
+      removeBrand: removeBrandMock,
+      updateBrand: updateBrandMock,
     };
 
     return render(
