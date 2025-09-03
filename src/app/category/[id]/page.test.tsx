@@ -4,12 +4,10 @@ import { render, screen } from '@testing-library/react';
 import DetailsCategoryPage from './page';
 import { categories as mockCategories } from '../../mocks/categories';
 import '@testing-library/jest-dom';
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
-// Mock do useRouter e useParams
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
-  useParams: jest.fn(),
 }));
 
 describe('DetailsCategoryPage', () => {
@@ -17,40 +15,34 @@ describe('DetailsCategoryPage', () => {
 
   beforeEach(() => {
     (useRouter as jest.Mock).mockReturnValue({ push: pushMock });
-  });
-
-  afterEach(() => {
     jest.clearAllMocks();
+    window.alert = jest.fn(); // mock alert global
   });
 
   it('exibe mensagem de loading inicialmente', () => {
-    (useParams as jest.Mock).mockReturnValue({ id: '1' });
-    render(<DetailsCategoryPage />);
+    render(<DetailsCategoryPage params={{ id: '1' }} />);
     expect(screen.getByText(/Carregando detalhes da categoria/i)).toBeInTheDocument();
   });
 
   it('renderiza detalhes da categoria quando encontrada', async () => {
-    (useParams as jest.Mock).mockReturnValue({ id: '1' });
+    render(<DetailsCategoryPage params={{ id: '1' }} />);
 
-    render(<DetailsCategoryPage />);
-    // Espera que o título apareça
     const category = mockCategories.find(c => c.id === 1);
-    expect(await screen.findByText('Categoria - Detalhes')).toBeInTheDocument();
+
+    expect(await screen.findByText('Detalhes da Categoria')).toBeInTheDocument();
     expect(screen.getByText(category!.name)).toBeInTheDocument();
 
     // Testa links
-    expect(screen.getByRole('link', { name: /Voltar/i })).toHaveAttribute('href', '/categories');
-    expect(screen.getByRole('link', { name: /Editar/i })).toHaveAttribute(
-      'href',
-      `/categories/edit/${category!.id}`
-    );
+    const voltarLink = screen.getByRole('link', { name: /Voltar/i });
+    const editarLink = screen.getByRole('link', { name: /Editar/i });
+
+    expect(voltarLink).toHaveAttribute('href', '/categories');
+    expect(editarLink).toHaveAttribute('href', `/categories/edit/${category!.id}`);
   });
 
   it('redireciona quando categoria não encontrada', () => {
-    (useParams as jest.Mock).mockReturnValue({ id: '999' });
-    window.alert = jest.fn(); // mock alert
+    render(<DetailsCategoryPage params={{ id: '999' }} />);
 
-    render(<DetailsCategoryPage />);
     expect(window.alert).toHaveBeenCalledWith('Categoria não encontrada.');
     expect(pushMock).toHaveBeenCalledWith('/categories');
   });

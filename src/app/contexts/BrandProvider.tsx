@@ -22,6 +22,7 @@ export function BrandProvider({ children }: BrandProviderProps) {
       id: newId,
       name,
       createdAt: new Date().toISOString(),
+      isActive: true, // corrigido: adiciona propriedade obrigatória
     };
     setBrands([...brands, newBrand]);
   };
