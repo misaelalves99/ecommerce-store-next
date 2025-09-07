@@ -27,7 +27,7 @@ describe('CreateBrandPage', () => {
 
   const renderWithContext = () => {
     const contextValue: BrandContextType = {
-      brands: [], 
+      brands: [],
       addBrand: addBrandMock,
       removeBrand: removeBrandMock,
       updateBrand: updateBrandMock,
@@ -40,14 +40,14 @@ describe('CreateBrandPage', () => {
     );
   };
 
-  it('renderiza o título', () => {
+  it('renderiza o título da página', () => {
     renderWithContext();
     expect(screen.getByText(/Adicionar Marca/i)).toBeInTheDocument();
   });
 
   it('chama addBrand e navega ao submeter o formulário', async () => {
     renderWithContext();
-    const input = screen.getByRole('textbox'); 
+    const input = screen.getByRole('textbox', { name: /nome/i }) || screen.getByRole('textbox');
     const submitButton = screen.getByRole('button', { name: /Salvar|Adicionar/i });
 
     await userEvent.type(input, 'Nova Marca');

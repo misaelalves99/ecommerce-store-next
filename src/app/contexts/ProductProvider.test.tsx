@@ -2,21 +2,28 @@
 
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ProductProvider } from './ProductProvider';
-import { ProductContext } from './ProductContext';
 import React, { useContext } from 'react';
+import { ProductsProvider } from './ProductProvider';
+import { ProductContext } from './ProductContext';
 import '@testing-library/jest-dom';
+import type { Product } from '../types/Product';
 
-describe('ProductProvider', () => {
+describe('ProductsProvider', () => {
   const TestComponent = () => {
     const context = useContext(ProductContext)!;
-    const { products, addProduct } = context;
+    const { products, addProduct, updateProduct, removeProduct } = context;
 
     return (
       <div>
         <ul data-testid="product-list">
           {products.map((p) => (
-            <li key={p.id}>{p.name}</li>
+            <li key={p.id}>
+              {p.name}
+              <button onClick={() => updateProduct({ ...p, name: `Atualizado ${p.name}` })}>
+                Atualizar
+              </button>
+              <button onClick={() => removeProduct(p.id)}>Remover</button>
+            </li>
           ))}
         </ul>
         <button
@@ -30,7 +37,7 @@ describe('ProductProvider', () => {
               categoryId: 1,
               brandId: 1,
               isActive: true,
-            })
+            } as Product)
           }
         >
           Adicionar Produto
@@ -41,20 +48,20 @@ describe('ProductProvider', () => {
 
   it('deve inicializar com produtos mockados', () => {
     render(
-      <ProductProvider>
+      <ProductsProvider>
         <TestComponent />
-      </ProductProvider>
+      </ProductsProvider>
     );
 
     const list = screen.getByTestId('product-list');
-    expect(list.children.length).toBeGreaterThan(0); // Pelo menos 1 produto inicial
+    expect(list.children.length).toBeGreaterThan(0);
   });
 
   it('deve adicionar um novo produto corretamente', async () => {
     render(
-      <ProductProvider>
+      <ProductsProvider>
         <TestComponent />
-      </ProductProvider>
+      </ProductsProvider>
     );
 
     const addButton = screen.getByRole('button', { name: /adicionar produto/i });
@@ -62,5 +69,34 @@ describe('ProductProvider', () => {
 
     const list = screen.getByTestId('product-list');
     expect(list).toHaveTextContent('Novo Produto');
+  });
+
+  it('deve atualizar um produto existente', async () => {
+    render(
+      <ProductsProvider>
+        <TestComponent />
+      </ProductsProvider>
+    );
+
+    const firstUpdateButton = screen.getAllByText(/atualizar/i)[0];
+    await userEvent.click(firstUpdateButton);
+
+    const list = screen.getByTestId('product-list');
+    expect(list.children[0]).toHaveTextContent(/Atualizado/);
+  });
+
+  it('deve remover um produto existente', async () => {
+    render(
+      <ProductsProvider>
+        <TestComponent />
+      </ProductsProvider>
+    );
+
+    const initialCount = screen.getByTestId('product-list').children.length;
+    const firstRemoveButton = screen.getAllByText(/remover/i)[0];
+    await userEvent.click(firstRemoveButton);
+
+    const list = screen.getByTestId('product-list');
+    expect(list.children.length).toBe(initialCount - 1);
   });
 });

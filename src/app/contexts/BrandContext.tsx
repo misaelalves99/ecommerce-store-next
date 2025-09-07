@@ -1,9 +1,9 @@
-// app/contexts/BrandContext.ts
+// src/contexts/BrandContext.ts
 
-"use client";
+'use client';
 
-import { createContext } from "react";
-import { BrandContextType } from "../types/BrandContextType";
+import { createContext } from 'react';
+import { BrandContextType } from '../types/BrandContextType';
 
 // Inicializa o contexto com valores padrão (funções vazias)
 export const BrandContext = createContext<BrandContextType>({

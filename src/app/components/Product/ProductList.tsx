@@ -1,19 +1,29 @@
 // app/components/Product/ProductList.tsx
 
-'use client';
+"use client";
 
-import Link from 'next/link';
-import styles from './ProductList.module.css';
-import { Product } from '../../types/Product';
+import { useRouter } from "next/navigation";
+import styles from "./ProductList.module.css";
+import { useProducts } from "../../hooks/useProducts";
+import { useBrands } from "../../hooks/useBrands";
+import { useCategories } from "../../hooks/useCategories";
+import type { Product } from "../../types/Product";
 
-interface ProductListProps {
-  products: Product[];
-}
+export default function ProductList() {
+  const { products } = useProducts();
+  const { brands } = useBrands();
+  const { categories } = useCategories();
+  const router = useRouter();
 
-export default function ProductList({ products }: ProductListProps) {
-  if (products.length === 0) {
-    return <p className={styles.empty}>Nenhum produto cadastrado.</p>;
-  }
+  const getBrandName = (id: number) => {
+    const brand = brands.find((b) => b.id === id);
+    return brand ? brand.name : "—";
+  };
+
+  const getCategoryName = (id: number) => {
+    const category = categories.find((c) => c.id === id);
+    return category ? category.name : "—";
+  };
 
   return (
     <table className={styles.ProductList}>
@@ -22,47 +32,65 @@ export default function ProductList({ products }: ProductListProps) {
           <th>ID</th>
           <th>Nome</th>
           <th>Preço</th>
-          <th>Categoria</th>
           <th>Marca</th>
-          <th>Status</th>
+          <th>Categoria</th>
+          <th>Ativo</th>
           <th>Ações</th>
         </tr>
       </thead>
       <tbody>
-        {products.map((product) => (
-          <tr key={product.id}>
-            <td>{product.id}</td>
-            <td>{product.name}</td>
-            <td>
-              {product.price.toLocaleString('pt-BR', {
-                style: 'currency',
-                currency: 'BRL',
-              })}
-            </td>
-            <td>{product.category?.name ?? '-'}</td>
-            <td>{product.brand?.name ?? '-'}</td>
-            <td>
-              <span
-                className={`${styles.badge} ${
-                  product.isActive ? styles.badgeSuccess : styles.badgeSecondary
-                }`}
-              >
-                {product.isActive ? 'Ativo' : 'Inativo'}
-              </span>
-            </td>
-            <td>
-              <Link href={`/products/${product.id}`} className={`${styles.btn} ${styles.btnInfo}`}>
-                Detalhes
-              </Link>
-              <Link href={`/products/edit/${product.id}`} className={`${styles.btn} ${styles.btnWarning}`}>
-                Editar
-              </Link>
-              <Link href={`/products/delete/${product.id}`} className={`${styles.btn} ${styles.btnDanger}`}>
-                Excluir
-              </Link>
+        {products.length > 0 ? (
+          products.map((product) => (
+            <tr key={product.id}>
+              <td>{product.id}</td>
+              <td>{product.name}</td>
+              <td>
+                R${" "}
+                {product.price.toLocaleString("pt-BR", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </td>
+              <td>{product.brandName || getBrandName(product.brandId)}</td>
+              <td>{product.categoryName || getCategoryName(product.categoryId)}</td>
+              <td>
+                <span
+                  className={`${styles.badge} ${
+                    product.isActive ? styles.badgeSuccess : styles.badgeSecondary
+                  }`}
+                >
+                  {product.isActive ? "Sim" : "Não"}
+                </span>
+              </td>
+              <td>
+                <button
+                  className={`${styles.btn} ${styles.btnInfo}`}
+                  onClick={() => router.push(`/products/${product.id}`)}
+                >
+                  Detalhes
+                </button>
+                <button
+                  className={`${styles.btn} ${styles.btnWarning}`}
+                  onClick={() => router.push(`/products/edit/${product.id}`)}
+                >
+                  Editar
+                </button>
+                <button
+                  className={`${styles.btn} ${styles.btnDanger}`}
+                  onClick={() => router.push(`/products/delete/${product.id}`)}
+                >
+                  Excluir
+                </button>
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan={7} className={styles.empty}>
+              Nenhum produto encontrado.
             </td>
           </tr>
-        ))}
+        )}
       </tbody>
     </table>
   );

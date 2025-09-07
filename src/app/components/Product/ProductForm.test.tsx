@@ -25,8 +25,10 @@ describe('ProductForm', () => {
     stock: 0,
     categoryId: 0,
     brandId: 0,
+    categoryName: '',
+    brandName: '',
     isActive: true,
-    createdAt: new Date().toISOString(), // 🔹 adicionado
+    createdAt: new Date().toISOString(),
   };
 
   const mockOnSubmit = jest.fn();
@@ -57,6 +59,41 @@ describe('ProductForm', () => {
     expect(screen.getByLabelText(/ativo/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /salvar/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /cancelar/i })).toBeInTheDocument();
+  });
+
+  it('deve preencher os campos com valores iniciais', () => {
+    const filledProduct: Product = {
+      ...initialProduct,
+      name: 'Produto X',
+      description: 'Descrição X',
+      sku: 'SKU001',
+      price: 100,
+      stock: 10,
+      categoryId: 1,
+      brandId: 1,
+      categoryName: 'Eletrônicos',
+      brandName: 'MarcaX',
+      isActive: false,
+    };
+
+    render(
+      <ProductForm
+        initialData={filledProduct}
+        categories={mockCategories}
+        brands={mockBrands}
+        onSubmit={mockOnSubmit}
+        onCancel={mockOnCancel}
+      />
+    );
+
+    expect(screen.getByLabelText(/nome/i)).toHaveValue('Produto X');
+    expect(screen.getByLabelText(/descrição/i)).toHaveValue('Descrição X');
+    expect(screen.getByLabelText(/sku/i)).toHaveValue('SKU001');
+    expect(screen.getByLabelText(/preço/i)).toHaveValue(100);
+    expect(screen.getByLabelText(/estoque/i)).toHaveValue(10);
+    expect(screen.getByLabelText(/categoria/i)).toHaveValue('1');
+    expect(screen.getByLabelText(/marca/i)).toHaveValue('1');
+    expect(screen.getByLabelText(/ativo/i)).not.toBeChecked();
   });
 
   it('deve exibir erros de validação se campos obrigatórios estiverem vazios', async () => {
@@ -113,6 +150,34 @@ describe('ProductForm', () => {
         stock: 50,
         categoryId: 1,
         brandId: 1,
+        categoryName: 'Eletrônicos',
+        brandName: 'MarcaX',
+      })
+    );
+  });
+
+  it('atualiza categoryName e brandName ao selecionar categoria/marca', async () => {
+    render(
+      <ProductForm
+        initialData={initialProduct}
+        categories={mockCategories}
+        brands={mockBrands}
+        onSubmit={mockOnSubmit}
+        onCancel={mockOnCancel}
+      />
+    );
+
+    await userEvent.selectOptions(screen.getByLabelText(/categoria/i), '2');
+    await userEvent.selectOptions(screen.getByLabelText(/marca/i), '2');
+
+    fireEvent.click(screen.getByRole('button', { name: /salvar/i }));
+
+    expect(mockOnSubmit).toHaveBeenCalledWith(
+      expect.objectContaining({
+        categoryId: 2,
+        categoryName: 'Roupas',
+        brandId: 2,
+        brandName: 'MarcaY',
       })
     );
   });
@@ -132,7 +197,7 @@ describe('ProductForm', () => {
     expect(mockOnCancel).toHaveBeenCalledTimes(1);
   });
 
-  it('deve alternar o checkbox de isActive', async () => {
+  it('deve alternar o checkbox de isActive', () => {
     render(
       <ProductForm
         initialData={initialProduct}

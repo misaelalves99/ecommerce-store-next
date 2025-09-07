@@ -33,17 +33,17 @@ describe('CreateCategoryPage', () => {
 
   it('chama addCategory e redireciona ao submeter o formulário', async () => {
     render(<CreateCategoryPage />);
-    
-    // Pegamos os inputs e botão do formulário
-    const nameInput = screen.getByLabelText(/Nome/i);
-    const descriptionInput = screen.getByLabelText(/Descrição/i);
+
+    // Captura todos os inputs do formulário (primeiro e segundo textbox)
+    const textboxes = screen.getAllByRole('textbox');
+    const nameInput = textboxes[0];
+    const descriptionInput = textboxes[1];
+
     const submitButton = screen.getByRole('button', { name: /Salvar|Adicionar/i });
 
-    // Simulamos a digitação
     await userEvent.type(nameInput, 'Nova Categoria');
     await userEvent.type(descriptionInput, 'Descrição teste');
-    
-    // Clicamos no botão de submit
+
     await userEvent.click(submitButton);
 
     expect(addCategoryMock).toHaveBeenCalledWith({
@@ -55,7 +55,7 @@ describe('CreateCategoryPage', () => {
 
   it('redireciona ao cancelar', async () => {
     render(<CreateCategoryPage />);
-    
+
     const cancelButton = screen.getByRole('button', { name: /Cancelar/i });
     await userEvent.click(cancelButton);
 

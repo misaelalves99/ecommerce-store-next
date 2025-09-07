@@ -1,12 +1,12 @@
-// app/contexts/BrandProvider.tsx
+// src/contexts/BrandProvider.tsx
 
-"use client";
+'use client';
 
-import { ReactNode, useState } from "react";
-import { BrandContext } from "./BrandContext";
-import { Brand } from "../types/Brand";
-import { brands as initialBrands } from "../mocks/brands";
-import { BrandContextType } from "../types/BrandContextType";
+import { ReactNode, useState } from 'react';
+import { BrandContext } from './BrandContext';
+import { Brand } from '../types/Brand';
+import { brands as initialBrands } from '../mocks/brands';
+import { BrandContextType } from '../types/BrandContextType';
 
 interface BrandProviderProps {
   children: ReactNode;
@@ -15,32 +15,39 @@ interface BrandProviderProps {
 export function BrandProvider({ children }: BrandProviderProps) {
   const [brands, setBrands] = useState<Brand[]>(initialBrands);
 
-  // Adicionar nova marca
-  const addBrand: BrandContextType["addBrand"] = (name: string) => {
+  // 🔹 Adicionar nova marca
+  const addBrand: BrandContextType['addBrand'] = (name: string) => {
     const newId = brands.length ? Math.max(...brands.map(b => b.id)) + 1 : 1;
     const newBrand: Brand = {
       id: newId,
       name,
       createdAt: new Date().toISOString(),
-      isActive: true, // corrigido: adiciona propriedade obrigatória
+      isActive: true,
     };
-    setBrands([...brands, newBrand]);
+    setBrands(prev => [...prev, newBrand]);
   };
 
-  // Remover marca por id
-  const removeBrand: BrandContextType["removeBrand"] = (id: number) => {
-    setBrands(brands.filter(b => b.id !== id));
-  };
-
-  // Atualizar marca
-  const updateBrand: BrandContextType["updateBrand"] = (id: number, name: string) => {
-    setBrands(
-      brands.map(b => (b.id === id ? { ...b, name } : b))
+  // 🔹 Atualizar marca
+  const updateBrand: BrandContextType['updateBrand'] = (id: number, name: string) => {
+    setBrands(prev =>
+      prev.map(b => (b.id === id ? { ...b, name } : b))
     );
   };
 
+  // 🔹 Remover marca
+  const removeBrand: BrandContextType['removeBrand'] = (id: number) => {
+    setBrands(prev => prev.filter(b => b.id !== id));
+  };
+
   return (
-    <BrandContext.Provider value={{ brands, addBrand, removeBrand, updateBrand }}>
+    <BrandContext.Provider
+      value={{
+        brands,
+        addBrand,
+        updateBrand,
+        removeBrand,
+      }}
+    >
       {children}
     </BrandContext.Provider>
   );

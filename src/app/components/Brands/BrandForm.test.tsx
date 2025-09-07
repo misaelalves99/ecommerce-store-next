@@ -39,6 +39,24 @@ describe('BrandForm', () => {
     expect(mockOnSubmit).not.toHaveBeenCalled();
   });
 
+  it('remove o erro após uma submissão válida', () => {
+    render(<BrandForm onSubmit={mockOnSubmit} />);
+    
+    const input = screen.getByLabelText(/Nome da Marca/i);
+    const submitBtn = screen.getByRole('button', { name: /Salvar/i });
+
+    // Submissão inválida
+    fireEvent.change(input, { target: { value: ' ' } });
+    fireEvent.click(submitBtn);
+    expect(screen.getByText(/O nome da marca é obrigatório./i)).toBeInTheDocument();
+
+    // Submissão válida
+    fireEvent.change(input, { target: { value: 'Marca Corrigida' } });
+    fireEvent.click(submitBtn);
+    expect(mockOnSubmit).toHaveBeenCalledWith('Marca Corrigida');
+    expect(screen.queryByText(/O nome da marca é obrigatório./i)).not.toBeInTheDocument();
+  });
+
   it('chama onCancel ao clicar no botão Cancelar', () => {
     render(<BrandForm onSubmit={mockOnSubmit} onCancel={mockOnCancel} />);
     

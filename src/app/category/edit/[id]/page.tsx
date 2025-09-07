@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import CategoryForm from '../../../components/Category/CategoryForm';
 import { Category } from '../../../types/Category';
-import { useCategories } from '../../../hooks/useCategories'; // hook do contexto
+import { useCategories } from '../../../hooks/useCategories';
 import styles from './EditCategoryPage.module.css';
 
 interface EditCategoryPageProps {
@@ -16,7 +16,6 @@ interface EditCategoryPageProps {
 export default function EditCategoryPage({ params }: EditCategoryPageProps) {
   const { id } = params;
   const router = useRouter();
-
   const { categories, updateCategory } = useCategories();
 
   const [category, setCategory] = useState<Category | null>(null);
@@ -24,14 +23,14 @@ export default function EditCategoryPage({ params }: EditCategoryPageProps) {
 
   useEffect(() => {
     if (!id) {
-      router.push('/category');
+      router.push('/category'); // plural
       return;
     }
 
     const found = categories.find((c) => c.id === Number(id)) ?? null;
     if (!found) {
       alert('Categoria não encontrada.');
-      router.push('/category');
+      router.push('/category'); // plural
       return;
     }
 
@@ -42,12 +41,12 @@ export default function EditCategoryPage({ params }: EditCategoryPageProps) {
   const handleUpdate = (data: { name: string; description: string }) => {
     if (category) {
       updateCategory(category.id, data); // atualiza no contexto
-      router.push('/category');
+      router.push('/category'); // plural
     }
   };
 
   const handleCancel = () => {
-    router.push('/category');
+    router.push('/category'); // plural
   };
 
   if (loading || !category) {

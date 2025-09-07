@@ -1,49 +1,52 @@
 // app/brands/[id]/page.test.tsx
 
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import DetailsBrandPage from './page';
 import { brands as mockBrands } from '../../mocks/brands';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
+  useParams: jest.fn(),
 }));
 
 describe('DetailsBrandPage', () => {
   const pushMock = jest.fn();
+  const useParamsMock = useParams as jest.Mock;
 
   beforeEach(() => {
     (useRouter as jest.Mock).mockReturnValue({ push: pushMock });
     pushMock.mockClear();
   });
 
-  it('mostra mensagem de carregando inicialmente', () => {
-    render(<DetailsBrandPage params={{ id: '1' }} />);
-    expect(screen.getByText(/Carregando detalhes da marca/i)).toBeInTheDocument();
+  it('mostra mensagem "Marca não encontrada" se o id não existir', async () => {
+    useParamsMock.mockReturnValue({ id: '9999' });
+
+    render(<DetailsBrandPage />);
+
+    await waitFor(() => {
+      expect(screen.getByText(/marca não encontrada/i)).toBeInTheDocument();
+    });
+
+    const backButton = screen.getByRole('button', { name: /voltar/i });
+    fireEvent.click(backButton);
+
+    expect(pushMock).toHaveBeenCalledWith('/brands');
   });
 
   it('renderiza os detalhes da marca existente', async () => {
-    render(<DetailsBrandPage params={{ id: String(mockBrands[0].id) }} />);
+    const brand = mockBrands[0];
+    useParamsMock.mockReturnValue({ id: String(brand.id) });
+
+    render(<DetailsBrandPage />);
 
     await waitFor(() => {
-      expect(screen.getByText(/Marca - Detalhes/i)).toBeInTheDocument();
-      expect(screen.getByText(mockBrands[0].name)).toBeInTheDocument();
-      expect(screen.getByRole('link', { name: /Voltar/i })).toBeInTheDocument();
-      expect(screen.getByRole('link', { name: /Editar/i })).toBeInTheDocument();
-    });
-  });
-
-  it('redireciona se a marca não for encontrada', async () => {
-    // Mock global alert
-    const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {});
-
-    render(<DetailsBrandPage params={{ id: '9999' }} />);
-
-    await waitFor(() => {
-      expect(alertMock).toHaveBeenCalledWith('Marca não encontrada.');
-      expect(pushMock).toHaveBeenCalledWith('/brands');
+      expect(screen.getByText(/detalhes da marca/i)).toBeInTheDocument();
+      expect(screen.getByText(brand.name)).toBeInTheDocument();
     });
 
-    alertMock.mockRestore();
+    const backButton = screen.getByRole('button', { name: /voltar/i });
+    fireEvent.click(backButton);
+    expect(pushMock).toHaveBeenCalledWith('/brands');
   });
 });

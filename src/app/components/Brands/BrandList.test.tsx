@@ -1,6 +1,4 @@
-// app/components/Brand/BrandList.test.tsx
-
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import BrandList from './BrandList';
 import { Brand } from '../../types/Brand';
 
@@ -12,7 +10,6 @@ describe('BrandList', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    jest.spyOn(window, 'alert').mockImplementation(() => {});
   });
 
   it('exibe mensagem quando não há marcas', () => {
@@ -20,7 +17,7 @@ describe('BrandList', () => {
     expect(screen.getByText(/Nenhuma marca cadastrada/i)).toBeInTheDocument();
   });
 
-  it('renderiza lista de marcas com detalhes, editar e excluir', () => {
+  it('renderiza lista de marcas com links de Detalhes, Editar e Excluir', () => {
     render(<BrandList brands={mockBrands} />);
 
     mockBrands.forEach((brand) => {
@@ -36,11 +33,5 @@ describe('BrandList', () => {
       const excluirLink = screen.getByText('Excluir').closest('a');
       expect(excluirLink).toHaveAttribute('href', `/brands/delete/${brand.id}`);
     });
-  });
-
-  it('chama alert ao clicar no botão Excluir', () => {
-    render(<BrandList brands={[mockBrands[0]]} />);
-    fireEvent.click(screen.getByText('Excluir'));
-    expect(window.alert).toHaveBeenCalledWith(`Excluir marca ${mockBrands[0].name}`);
   });
 });

@@ -6,7 +6,7 @@ import { useBrands } from './useBrands';
 import React from 'react';
 
 describe('useBrands hook', () => {
-  it('deve retornar o contexto corretamente quando usado dentro do BrandProvider', () => {
+  it('deve retornar o contexto corretamente dentro do BrandProvider', () => {
     const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
       <BrandProvider>{children}</BrandProvider>
     );
@@ -14,7 +14,10 @@ describe('useBrands hook', () => {
     const { result } = renderHook(() => useBrands(), { wrapper });
 
     expect(result.current.brands).toBeDefined();
+    expect(Array.isArray(result.current.brands)).toBe(true);
     expect(typeof result.current.addBrand).toBe('function');
+    expect(typeof result.current.updateBrand).toBe('function');
+    expect(typeof result.current.removeBrand).toBe('function');
   });
 
   it('deve lançar erro quando usado fora do BrandProvider', () => {

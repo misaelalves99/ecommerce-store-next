@@ -1,25 +1,27 @@
-// app/products/page.tsx
+// src/app/products/page.tsx
 
 "use client";
 
-import Link from "next/link";
-import ProductList from "../components/Product/ProductList";
-import { useProducts } from "../hooks/useProducts";
+import { useRouter } from "next/navigation";
 import styles from "./ProductPage.module.css";
+import ProductList from "../components/Product/ProductList";
 
-export default function ProductsPage() {
-  const { products } = useProducts();
+export default function ProductPage() {
+  const router = useRouter();
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.heading}>Produtos</h1>
-        <Link href="/products/create" className={`${styles.btn} ${styles.btnPrimary}`}>
-          Adicionar Produto
-        </Link>
+        <button
+          className={`${styles.btn} ${styles.btnPrimary}`}
+          onClick={() => router.push("/products/create")}
+        >
+          Cadastrar Novo Produto
+        </button>
       </div>
 
-      <ProductList products={products} />
+      <ProductList />
     </div>
   );
 }

@@ -1,27 +1,32 @@
-// app/brands/edit/[id]/page.tsx
+// app/brands/edit/[id]/page.test.tsx
 
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import EditBrandPage from './page';
-import { useRouter } from 'next/navigation';
 
 // Mock do Next Router
+const pushMock = jest.fn();
 jest.mock('next/navigation', () => ({
-  useRouter: jest.fn(),
+  useRouter: jest.fn(() => ({ push: pushMock })),
+}));
+
+// Mock do hook useBrands
+const updateBrandMock = jest.fn();
+const mockBrands = [
+  { id: 1, name: 'Marca 1', createdAt: new Date().toISOString(), isActive: true },
+  { id: 2, name: 'Marca 2', createdAt: new Date().toISOString(), isActive: true },
+];
+jest.mock('../../../hooks/useBrands', () => ({
+  useBrands: jest.fn(() => ({
+    brands: mockBrands,
+    updateBrand: updateBrandMock,
+  })),
 }));
 
 describe('EditBrandPage', () => {
-  const pushMock = jest.fn();
-
   beforeEach(() => {
-    (useRouter as jest.Mock).mockReturnValue({ push: pushMock });
-    pushMock.mockClear();
+    jest.clearAllMocks();
   });
-
-  const mockBrands = [
-    { id: 1, name: 'Marca 1', createdAt: new Date().toISOString(), isActive: true },
-    { id: 2, name: 'Marca 2', createdAt: new Date().toISOString(), isActive: true },
-  ];
 
   const renderWithProps = (id: string) =>
     render(<EditBrandPage params={{ id }} />);
@@ -29,29 +34,14 @@ describe('EditBrandPage', () => {
   it('renderiza o título e o formulário com o nome inicial', async () => {
     renderWithProps('1');
 
-    // Marca precisa existir nos hooks => vamos mockar useBrands
-    jest.mock('../../../hooks/useBrands', () => ({
-      useBrands: () => ({
-        brands: mockBrands,
-        updateBrand: jest.fn(),
-      }),
-    }));
-
     expect(await screen.findByText(/Editar Marca/i)).toBeInTheDocument();
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('Marca 1');
   });
 
-  it('chama handleUpdate e navega ao submeter o formulário', async () => {
-    const updateBrandMock = jest.fn();
-    jest.mock('../../../hooks/useBrands', () => ({
-      useBrands: () => ({
-        brands: mockBrands,
-        updateBrand: updateBrandMock,
-      }),
-    }));
-
+  it('chama updateBrand e navega ao submeter o formulário', async () => {
     renderWithProps('1');
+
     const input = screen.getByRole('textbox');
     const submitButton = screen.getByRole('button', { name: /Salvar|Atualizar/i });
 
@@ -65,8 +55,8 @@ describe('EditBrandPage', () => {
 
   it('navega ao cancelar', async () => {
     renderWithProps('1');
-    const cancelButton = screen.getByRole('button', { name: /Cancelar/i });
 
+    const cancelButton = screen.getByRole('button', { name: /Cancelar/i });
     await userEvent.click(cancelButton);
 
     expect(pushMock).toHaveBeenCalledWith('/brands');
@@ -76,6 +66,7 @@ describe('EditBrandPage', () => {
     window.alert = jest.fn();
 
     renderWithProps('999'); // id inexistente
+
     expect(window.alert).toHaveBeenCalledWith('Marca não encontrada.');
     expect(pushMock).toHaveBeenCalledWith('/brands');
   });

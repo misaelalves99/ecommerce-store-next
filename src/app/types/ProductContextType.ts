@@ -1,13 +1,10 @@
 // src/types/ProductContextType.ts
 
-import { Product } from "./Product";
+import { Product, NewProduct } from './Product';
 
 export interface ProductContextType {
   products: Product[];
-  addProduct: (product: Omit<Product, "id" | "createdAt" | "category" | "brand">) => void;
+  addProduct: (product: NewProduct) => void;
+  updateProduct: (id: number, product: NewProduct) => void;
   removeProduct: (id: number) => void;
-  updateProduct: (
-    id: number,
-    data: Partial<Omit<Product, "id" | "createdAt" | "category" | "brand">>
-  ) => void;
 }

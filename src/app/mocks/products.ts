@@ -1,8 +1,8 @@
 // src/mocks/products.ts
 
-import { Product } from '../types/Product';
-import { categories } from './categories';
-import { brands } from './brands';
+import { Product } from "../types/Product";
+import { categories } from "./categories";
+import { brands } from "./brands";
 
 export const products: Product[] = [
   {
@@ -15,8 +15,9 @@ export const products: Product[] = [
     categoryId: 1,
     brandId: 1,
     isActive: true,
-    category: { name: categories.find(c => c.id === 1)?.name ?? '-' },
-    brand: { name: brands.find(b => b.id === 1)?.name ?? '-' },
+    createdAt: new Date().toISOString(),
+    categoryName: categories.find((c) => c.id === 1)?.name ?? "-",
+    brandName: brands.find((b) => b.id === 1)?.name ?? "-",
   },
   {
     id: 2,
@@ -28,8 +29,9 @@ export const products: Product[] = [
     categoryId: 2,
     brandId: 2,
     isActive: true,
-    category: { name: categories.find(c => c.id === 2)?.name ?? '-' },
-    brand: { name: brands.find(b => b.id === 2)?.name ?? '-' },
+    createdAt: new Date().toISOString(),
+    categoryName: categories.find((c) => c.id === 2)?.name ?? "-",
+    brandName: brands.find((b) => b.id === 2)?.name ?? "-",
   },
   {
     id: 3,
@@ -41,7 +43,8 @@ export const products: Product[] = [
     categoryId: 3,
     brandId: 3,
     isActive: false,
-    category: { name: categories.find(c => c.id === 3)?.name ?? '-' },
-    brand: { name: brands.find(b => b.id === 3)?.name ?? '-' },
+    createdAt: new Date().toISOString(),
+    categoryName: categories.find((c) => c.id === 3)?.name ?? "-",
+    brandName: brands.find((b) => b.id === 3)?.name ?? "-",
   },
 ];

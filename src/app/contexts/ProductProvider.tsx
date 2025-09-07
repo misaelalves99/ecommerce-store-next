@@ -2,67 +2,40 @@
 
 "use client";
 
-import { ReactNode, useState } from "react";
-import { Product } from "../types/Product";
-import { products as initialProducts } from "../mocks/products";
-import { categories as mockCategories } from "../mocks/categories";
-import { brands as mockBrands } from "../mocks/brands";
+import React, { useState } from "react";
 import { ProductContext } from "./ProductContext";
-import { ProductContextType } from "../types/ProductContextType";
+import type { Product } from "../types/Product";
+import { products as initialProducts } from "../mocks/products";
 
 interface ProductProviderProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
-export function ProductProvider({ children }: ProductProviderProps) {
-  const [products, setProducts] = useState<Product[]>(initialProducts);
+export const ProductsProvider: React.FC<ProductProviderProps> = ({ children }) => {
+ const [products, setProducts] = useState<Product[]>(initialProducts);
 
-  // Adicionar produto
-  const addProduct: ProductContextType["addProduct"] = (productData) => {
-    const newId = products.length ? Math.max(...products.map((p) => p.id)) + 1 : 1;
-
-    const category = mockCategories.find((c) => c.id === productData.categoryId);
-    const brand = mockBrands.find((b) => b.id === productData.brandId);
-
-    const newProduct: Product = {
-      ...productData,
-      id: newId,
-      createdAt: new Date().toISOString(),
-      category,
-      brand,
-    };
-
-    setProducts([...products, newProduct]);
+  const addProduct = (product: Product) => {
+    const newId = products.length > 0 ? Math.max(...products.map((p) => p.id)) + 1 : 1;
+    const newProduct: Product = { ...product, id: newId };
+    setProducts((prev) => [...prev, newProduct]);
+    console.log("Novo produto adicionado:", newProduct);
   };
 
-  // Remover produto
-  const removeProduct: ProductContextType["removeProduct"] = (id) => {
-    setProducts(products.filter((p) => p.id !== id));
-  };
-
-  // Atualizar produto
-  const updateProduct: ProductContextType["updateProduct"] = (id, data) => {
-    setProducts(
-      products.map((p) =>
-        p.id === id
-          ? {
-              ...p,
-              ...data,
-              category: data.categoryId
-                ? mockCategories.find((c) => c.id === data.categoryId)
-                : p.category,
-              brand: data.brandId
-                ? mockBrands.find((b) => b.id === data.brandId)
-                : p.brand,
-            }
-          : p
-      )
+  const updateProduct = (updatedProduct: Product) => {
+    setProducts((prev) =>
+      prev.map((p) => (p.id === updatedProduct.id ? updatedProduct : p))
     );
+    console.log("Produto atualizado:", updatedProduct);
+  };
+
+  const removeProduct = (id: number) => {
+    setProducts((prev) => prev.filter((p) => p.id !== id));
+    console.log("Produto excluído com id:", id);
   };
 
   return (
-    <ProductContext.Provider value={{ products, addProduct, removeProduct, updateProduct }}>
+    <ProductContext.Provider value={{ products, addProduct, updateProduct, removeProduct }}>
       {children}
     </ProductContext.Provider>
   );
-}
+};

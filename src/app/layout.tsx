@@ -5,9 +5,9 @@ import "./globals.css";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 
-import { ProductProvider } from "./contexts/ProductProvider";
-import { BrandProvider } from "./contexts/BrandProvider";
 import { CategoryProvider } from "./contexts/CategoryProvider";
+import { BrandProvider } from "./contexts/BrandProvider";
+import { ProductsProvider } from "./contexts/ProductProvider";
 
 export const metadata: Metadata = {
   title: "Painel Administrativo",
@@ -22,17 +22,16 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body>
-        <ProductProvider>
+        {/* 🔹 CategoryProvider e BrandProvider precisam envolver o ProductProvider */}
+        <CategoryProvider>
           <BrandProvider>
-            <CategoryProvider>
+            <ProductsProvider>
               <Navbar />
-              <main className="container">
-                {children}
-              </main>
+              <main className="container">{children}</main>
               <Footer />
-            </CategoryProvider>
+            </ProductsProvider>
           </BrandProvider>
-        </ProductProvider>
+        </CategoryProvider>
       </body>
     </html>
   );

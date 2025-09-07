@@ -1,4 +1,4 @@
-// app/categories/page.tsx
+// app/category/page.tsx
 
 'use client';
 

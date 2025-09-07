@@ -20,9 +20,14 @@ export interface Product {
   categoryId: number;
   brandId: number;
   isActive: boolean;
-  createdAt: string; // 🔹 adicionado para compatibilidade com ProductProvider
+  createdAt: string;
 
-  // relações opcionais resolvidas
-  category?: Pick<Category, "name">; // apenas o name quando existir
-  brand?: Pick<Brand, "name">;       // apenas o name quando existir
+  category?: Pick<Category, "name">;
+  brand?: Pick<Brand, "name">;
+
+  categoryName: string;
+  brandName: string;
 }
+
+// NewProduct não precisa de id, createdAt, category, brand, categoryName ou brandName
+export type NewProduct = Omit<Product, "id" | "createdAt" | "category" | "brand" | "categoryName" | "brandName">;

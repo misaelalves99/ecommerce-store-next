@@ -1,15 +1,23 @@
 // app/products/page.test.tsx
 
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import ProductsPage from './page';
 import * as useProductsHook from '../hooks/useProducts';
+import * as nextNavigation from 'next/navigation';
 import { products as mockProducts } from '../mocks/products';
 
 jest.mock('../hooks/useProducts');
+jest.mock('next/navigation', () => ({
+  useRouter: jest.fn(),
+}));
 
 describe('ProductsPage', () => {
+  const pushMock = jest.fn();
+
   beforeEach(() => {
     jest.clearAllMocks();
+    (nextNavigation.useRouter as jest.Mock).mockReturnValue({ push: pushMock });
   });
 
   it('deve renderizar título e botão de adicionar', () => {
@@ -20,8 +28,13 @@ describe('ProductsPage', () => {
     render(<ProductsPage />);
 
     expect(screen.getByText(/Produtos/i)).toBeInTheDocument();
-    expect(screen.getByText(/Adicionar Produto/i)).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /Adicionar Produto/i })).toHaveAttribute('href', '/products/create');
+
+    const button = screen.getByRole('button', { name: /Cadastrar Novo Produto/i });
+    expect(button).toBeInTheDocument();
+
+    // Testa clique do botão
+    userEvent.click(button);
+    expect(pushMock).toHaveBeenCalledWith('/products/create');
   });
 
   it('deve renderizar lista de produtos', () => {

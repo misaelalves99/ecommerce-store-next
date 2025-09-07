@@ -1,6 +1,7 @@
 // src/mocks/products.test.ts
 
 import { products } from './products';
+import type { Product } from '../types/Product';
 
 describe('products mock', () => {
   it('deve existir e ser um array', () => {
@@ -8,8 +9,8 @@ describe('products mock', () => {
     expect(Array.isArray(products)).toBe(true);
   });
 
-  it('cada product deve ter propriedades corretas', () => {
-    products.forEach((product) => {
+  it('cada product deve ter todas as propriedades corretas com tipos válidos', () => {
+    products.forEach((product: Product) => {
       expect(product).toHaveProperty('id');
       expect(product).toHaveProperty('name');
       expect(product).toHaveProperty('description');
@@ -19,8 +20,9 @@ describe('products mock', () => {
       expect(product).toHaveProperty('categoryId');
       expect(product).toHaveProperty('brandId');
       expect(product).toHaveProperty('isActive');
-      expect(product).toHaveProperty('category');
-      expect(product).toHaveProperty('brand');
+      expect(product).toHaveProperty('createdAt');
+      expect(product).toHaveProperty('categoryName');
+      expect(product).toHaveProperty('brandName');
 
       expect(typeof product.id).toBe('number');
       expect(typeof product.name).toBe('string');
@@ -31,8 +33,11 @@ describe('products mock', () => {
       expect(typeof product.categoryId).toBe('number');
       expect(typeof product.brandId).toBe('number');
       expect(typeof product.isActive).toBe('boolean');
-      expect(product.category).not.toBeUndefined();
-      expect(product.brand).not.toBeUndefined();
+      expect(typeof product.categoryName).toBe('string');
+      expect(typeof product.brandName).toBe('string');
+
+      // Validar createdAt
+      expect(() => new Date(product.createdAt).toISOString()).not.toThrow();
     });
   });
 

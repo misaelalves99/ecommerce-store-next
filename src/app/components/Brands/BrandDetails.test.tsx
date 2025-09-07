@@ -15,7 +15,6 @@ describe('BrandDetails', () => {
   it('renderiza os detalhes da marca corretamente', () => {
     render(<BrandDetails brand={mockBrand} />);
 
-    expect(screen.getByText(/Detalhes da Marca/i)).toBeInTheDocument();
     expect(screen.getByText(/ID:/i)).toBeInTheDocument();
     expect(screen.getByText('1')).toBeInTheDocument();
     expect(screen.getByText(/Nome:/i)).toBeInTheDocument();

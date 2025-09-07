@@ -3,8 +3,9 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import EditProductPage from './page';
 import * as nextNavigation from 'next/navigation';
-import { products as mockProducts } from '../../../mocks/products';
+import { Product } from '../../../types/Product';
 import '@testing-library/jest-dom';
+import * as useProductsHook from '../../../hooks/useProducts';
 
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
@@ -14,46 +15,82 @@ describe('EditProductPage', () => {
   const pushMock = jest.fn();
   const useRouterMock = nextNavigation.useRouter as jest.Mock;
 
+  const mockProduct: Product = {
+    id: 1,
+    name: 'Produto Teste',
+    description: 'Descrição',
+    sku: 'SKU123',
+    price: 100,
+    stock: 10,
+    categoryId: 1,
+    brandId: 1,
+    isActive: true,
+    createdAt: new Date().toISOString(),
+    categoryName: 'Categoria Teste',
+    brandName: 'Marca Teste',
+  };
+
+  const updateProductMock = jest.fn();
+
   beforeEach(() => {
     jest.clearAllMocks();
     useRouterMock.mockReturnValue({ push: pushMock });
+
+    jest.spyOn(useProductsHook, 'useProducts').mockReturnValue({
+      products: [mockProduct],
+      addProduct: jest.fn(),
+      removeProduct: jest.fn(),
+      updateProduct: updateProductMock,
+    });
   });
 
   it('deve renderizar "Carregando..." se o produto não for encontrado', () => {
+    jest.spyOn(useProductsHook, 'useProducts').mockReturnValue({
+      products: [],
+      addProduct: jest.fn(),
+      removeProduct: jest.fn(),
+      updateProduct: jest.fn(),
+    });
+
     render(<EditProductPage params={{ id: '9999' }} />);
     expect(screen.getByText(/Carregando/i)).toBeInTheDocument();
   });
 
   it('deve renderizar o formulário com dados do produto existente', async () => {
-    const product = mockProducts[0];
-    render(<EditProductPage params={{ id: String(product.id) }} />);
+    render(<EditProductPage params={{ id: String(mockProduct.id) }} />);
 
-    // Espera até o efeito carregar os dados
     await waitFor(() => {
       expect(screen.getByText(/Editar Produto/i)).toBeInTheDocument();
-      expect(screen.getByDisplayValue(product.name)).toBeInTheDocument();
-      expect(screen.getByDisplayValue(product.description)).toBeInTheDocument();
-      expect(screen.getByDisplayValue(product.sku)).toBeInTheDocument();
+      expect(screen.getByDisplayValue(mockProduct.name)).toBeInTheDocument();
+      expect(screen.getByDisplayValue(mockProduct.description)).toBeInTheDocument();
+      expect(screen.getByDisplayValue(mockProduct.sku)).toBeInTheDocument();
     });
   });
 
   it('botão cancelar deve chamar router.push', async () => {
-    const product = mockProducts[0];
-    render(<EditProductPage params={{ id: String(product.id) }} />);
+    render(<EditProductPage params={{ id: String(mockProduct.id) }} />);
 
     const cancelButton = await screen.findByText(/Cancelar/i);
     fireEvent.click(cancelButton);
+
     expect(pushMock).toHaveBeenCalledWith('/products');
   });
 
-  it('submeter formulário deve chamar handleSave e router.push', async () => {
-    const product = mockProducts[0];
-    render(<EditProductPage params={{ id: String(product.id) }} />);
+  it('submeter formulário deve chamar updateProduct e router.push', async () => {
+    render(<EditProductPage params={{ id: String(mockProduct.id) }} />);
 
     const submitButton = await screen.findByText(/Salvar/i);
     fireEvent.click(submitButton);
 
-    // Apenas verificamos se o push foi chamado (handleSave faz updateProduct e router.push)
-    await waitFor(() => expect(pushMock).toHaveBeenCalledWith('/products'));
+    await waitFor(() => {
+      expect(updateProductMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          id: mockProduct.id,
+          name: mockProduct.name,
+          description: mockProduct.description,
+        })
+      );
+      expect(pushMock).toHaveBeenCalledWith('/products');
+    });
   });
 });

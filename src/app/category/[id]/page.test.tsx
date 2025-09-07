@@ -1,13 +1,18 @@
 // app/categories/[id]/page.test.tsx
 
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import DetailsCategoryPage from './page';
 import { categories as mockCategories } from '../../mocks/categories';
-import '@testing-library/jest-dom';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
+import { useCategories } from '../../hooks/useCategories';
 
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
+  useParams: jest.fn(),
+}));
+
+jest.mock('../../hooks/useCategories', () => ({
+  useCategories: jest.fn(),
 }));
 
 describe('DetailsCategoryPage', () => {
@@ -16,34 +21,45 @@ describe('DetailsCategoryPage', () => {
   beforeEach(() => {
     (useRouter as jest.Mock).mockReturnValue({ push: pushMock });
     jest.clearAllMocks();
-    window.alert = jest.fn(); // mock alert global
+    window.alert = jest.fn();
   });
 
-  it('exibe mensagem de loading inicialmente', () => {
-    render(<DetailsCategoryPage params={{ id: '1' }} />);
-    expect(screen.getByText(/Carregando detalhes da categoria/i)).toBeInTheDocument();
+  it('exibe mensagem "Categoria não encontrada" se o id não existir', async () => {
+    (useCategories as jest.Mock).mockReturnValue({ categories: mockCategories });
+    (useParams as jest.Mock).mockReturnValue({ id: '999' });
+
+    render(<DetailsCategoryPage />);
+
+    await waitFor(() => {
+      expect(screen.getByText(/Categoria não encontrada/i)).toBeInTheDocument();
+    });
+
+    const voltarBtn = screen.getByRole('button', { name: /Voltar/i });
+    fireEvent.click(voltarBtn);
+
+    expect(pushMock).toHaveBeenCalledWith('/category');
   });
 
-  it('renderiza detalhes da categoria quando encontrada', async () => {
-    render(<DetailsCategoryPage params={{ id: '1' }} />);
+  it('renderiza detalhes da categoria existente', async () => {
+    (useCategories as jest.Mock).mockReturnValue({ categories: mockCategories });
+    (useParams as jest.Mock).mockReturnValue({ id: '1' });
 
-    const category = mockCategories.find(c => c.id === 1);
+    render(<DetailsCategoryPage />);
 
-    expect(await screen.findByText('Detalhes da Categoria')).toBeInTheDocument();
-    expect(screen.getByText(category!.name)).toBeInTheDocument();
+    const category = mockCategories.find(c => c.id === 1)!;
 
-    // Testa links
-    const voltarLink = screen.getByRole('link', { name: /Voltar/i });
-    const editarLink = screen.getByRole('link', { name: /Editar/i });
+    await waitFor(() => {
+      expect(screen.getByText(/Detalhes da Categoria/i)).toBeInTheDocument();
+      expect(screen.getByText(category.name)).toBeInTheDocument();
+    });
 
-    expect(voltarLink).toHaveAttribute('href', '/categories');
-    expect(editarLink).toHaveAttribute('href', `/categories/edit/${category!.id}`);
-  });
+    const voltarBtn = screen.getByRole('button', { name: /Voltar/i });
+    const editarBtn = screen.getByRole('button', { name: /Editar/i });
 
-  it('redireciona quando categoria não encontrada', () => {
-    render(<DetailsCategoryPage params={{ id: '999' }} />);
+    fireEvent.click(voltarBtn);
+    expect(pushMock).toHaveBeenCalledWith('/category');
 
-    expect(window.alert).toHaveBeenCalledWith('Categoria não encontrada.');
-    expect(pushMock).toHaveBeenCalledWith('/categories');
+    fireEvent.click(editarBtn);
+    expect(pushMock).toHaveBeenCalledWith(`/category/edit/${category.id}`);
   });
 });

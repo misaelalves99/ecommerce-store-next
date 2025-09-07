@@ -1,6 +1,6 @@
 // app/pages/products/delete/[id]/page.test.tsx
 
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import DeleteProductPage from './page';
 import * as nextNavigation from 'next/navigation';
@@ -27,12 +27,15 @@ describe('DeleteProductPage', () => {
     brandId: 1,
     isActive: true,
     createdAt: new Date().toISOString(),
+    categoryName: 'Categoria Teste', // corrigido
+    brandName: 'Marca Teste',        // corrigido
   };
 
   const removeProductMock = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
+
     (nextNavigation.useRouter as jest.Mock).mockReturnValue({ push: pushMock });
     (nextNavigation.useParams as jest.Mock).mockReturnValue({ id: String(mockProduct.id) });
 
@@ -56,7 +59,6 @@ describe('DeleteProductPage', () => {
   it('deve chamar removeProduct e redirecionar ao confirmar exclusão', async () => {
     render(<DeleteProductPage />);
 
-    // Mock da janela de confirmação
     jest.spyOn(window, 'confirm').mockReturnValueOnce(true);
 
     const deleteButton = screen.getByRole('button', { name: /Excluir/i });
@@ -69,7 +71,6 @@ describe('DeleteProductPage', () => {
   it('não deve excluir o produto se o usuário cancelar a confirmação', async () => {
     render(<DeleteProductPage />);
 
-    // Cancelar no confirm
     jest.spyOn(window, 'confirm').mockReturnValueOnce(false);
 
     const deleteButton = screen.getByRole('button', { name: /Excluir/i });
@@ -88,7 +89,6 @@ describe('DeleteProductPage', () => {
   });
 
   it('deve mostrar "Carregando..." se o produto não for encontrado', () => {
-    // Mock params com id inexistente
     (nextNavigation.useParams as jest.Mock).mockReturnValue({ id: '9999' });
 
     render(<DeleteProductPage />);
