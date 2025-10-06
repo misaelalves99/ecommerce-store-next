@@ -4,6 +4,7 @@
 
 import Link from 'next/link';
 import { Brand } from '../../types/Brand';
+import { FaInfoCircle, FaEdit, FaTrash } from 'react-icons/fa';
 import styles from './BrandList.module.css';
 
 interface BrandListProps {
@@ -29,15 +30,27 @@ export default function BrandList({ brands }: BrandListProps) {
           <tr key={brand.id}>
             <td>{brand.id}</td>
             <td>{brand.name}</td>
-            <td>
-              <Link href={`/brands/${brand.id}`} className={`${styles.btn} ${styles.btnInfo}`}>
-                Detalhes
+            <td className={styles.actions}>
+              <Link
+                href={`/brands/${brand.id}`}
+                className={`${styles.btn} ${styles.btnInfo}`}
+                title="Ver detalhes"
+              >
+                <FaInfoCircle />
               </Link>
-              <Link href={`/brands/edit/${brand.id}`} className={`${styles.btn} ${styles.btnWarning}`}>
-                Editar
+              <Link
+                href={`/brands/edit/${brand.id}`}
+                className={`${styles.btn} ${styles.btnWarning}`}
+                title="Editar marca"
+              >
+                <FaEdit />
               </Link>
-              <Link href={`/brands/delete/${brand.id}`} className={`${styles.btn} ${styles.btnDanger}`}>
-                Excluir
+              <Link
+                href={`/brands/delete/${brand.id}`}
+                className={`${styles.btn} ${styles.btnDanger}`}
+                title="Excluir marca"
+              >
+                <FaTrash />
               </Link>
             </td>
           </tr>

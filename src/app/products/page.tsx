@@ -17,7 +17,7 @@ export default function ProductPage() {
           className={`${styles.btn} ${styles.btnPrimary}`}
           onClick={() => router.push("/products/create")}
         >
-          Cadastrar Novo Produto
+          Novo Produto
         </button>
       </div>
 

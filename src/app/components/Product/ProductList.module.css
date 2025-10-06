@@ -1,4 +1,4 @@
-/* src/components/Product/ProductList.module.css */
+/* app/components/Product/ProductList.module.css */
 
 .ProductList {
   width: 100%;
@@ -7,7 +7,7 @@
   background-color: #fff;
   border-radius: 0.75rem;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   font-size: 1rem;
 }
 
@@ -45,38 +45,32 @@
   border-bottom: none;
 }
 
-.ProductList th {
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-size: 0.9rem;
-}
-
 .ProductList tbody tr:hover {
   background-color: #f8f9fa;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
-/* Botões com escopo ProductList */
+/* Botões */
 .ProductList .btn {
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  font-weight: 600;
+  padding: 0.6rem;
   border-radius: 0.5rem;
   border: none;
   cursor: pointer;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   text-decoration: none;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .ProductList .btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
+/* Cores dos botões */
 .ProductList .btnInfo {
   background-color: #17a2b8;
   color: #fff;
@@ -104,20 +98,25 @@
   background-color: #c82333;
 }
 
+/* Ícones */
+.ProductList .icon {
+  font-size: 1.05rem;
+}
+
 .ProductList .btn + .btn {
-  margin-left: 0.5rem;
+  margin-left: 0.4rem;
 }
 
 /* Badges */
 .ProductList .badge {
   display: inline-block;
-  padding: 0.5em 0.75em;
+  padding: 0.45em 0.75em;
   font-size: 0.75rem;
   font-weight: 700;
   border-radius: 1rem;
   color: #fff;
-  background-color: transparent; /* Remove fundo */
-  border: 1px solid currentColor; /* Opcional: mantém contorno visível */
+  background-color: transparent;
+  border: 1px solid currentColor;
 }
 
 .ProductList .badgeSuccess {
@@ -136,4 +135,11 @@
   padding: 2rem;
   font-size: 1.25rem;
   color: #6c757d;
+}
+
+/* Ações */
+.ProductList .actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
 }

@@ -1,48 +1,94 @@
-/* app/categories/CategoryPage.module.css */
+/* app/category/CategoryPage.module.css */
 
+/* Container principal */
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1.5rem;
+  padding: 3rem 2rem;
+  background: linear-gradient(135deg, #ffffff, #faf7fb);
+  border-radius: 1rem;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: all 0.3s ease;
 }
 
+.container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.12);
+}
+
+/* Cabeçalho */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
+/* Título */
 .heading {
   font-size: 2.5rem;
-  font-weight: 700;
-  color: #2c3e50;
-  margin: 0;
+  font-weight: 800;
+  background: linear-gradient(90deg, #c000cb, #810a87);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   text-transform: uppercase;
-  letter-spacing: 1.2px;
+  letter-spacing: 1px;
+  margin: 0;
 }
 
-/* Botão estilizado igual ao ProductPage */
+
+/* Botão base */
 .btn {
+  padding: 0.85rem 1.8rem;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 1rem;
   font-weight: 600;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
   text-decoration: none;
-  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-}
-
-.btnPrimary {
-  background-color: #007bff;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
   color: #fff;
-  border: 1px solid #007bff;
+}
+
+/* Botão principal */
+.btnPrimary {
+  background: linear-gradient(135deg, #ffc90a, #ffb800);
+  color: #2e2e2e;
+  font-weight: 700;
 }
 
 .btnPrimary:hover {
-  background-color: #0056b3;
+  background: linear-gradient(135deg, #ffb800, #ffc90a);
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 8px 22px rgba(255, 201, 10, 0.4);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .container {
+    padding: 2rem 1.25rem;
+  }
+
+  .heading {
+    font-size: 2rem;
+    text-align: center;
+    width: 100%;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
 }

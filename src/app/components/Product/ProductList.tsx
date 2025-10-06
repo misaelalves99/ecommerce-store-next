@@ -8,6 +8,7 @@ import { useProducts } from "../../hooks/useProducts";
 import { useBrands } from "../../hooks/useBrands";
 import { useCategories } from "../../hooks/useCategories";
 import type { Product } from "../../types/Product";
+import { FaInfoCircle, FaEdit, FaTrash } from "react-icons/fa";
 
 export default function ProductList() {
   const { products } = useProducts();
@@ -62,24 +63,27 @@ export default function ProductList() {
                   {product.isActive ? "Sim" : "Não"}
                 </span>
               </td>
-              <td>
+              <td className={styles.actions}>
                 <button
                   className={`${styles.btn} ${styles.btnInfo}`}
                   onClick={() => router.push(`/products/${product.id}`)}
+                  title="Ver detalhes"
                 >
-                  Detalhes
+                  <FaInfoCircle className={styles.icon} />
                 </button>
                 <button
                   className={`${styles.btn} ${styles.btnWarning}`}
                   onClick={() => router.push(`/products/edit/${product.id}`)}
+                  title="Editar produto"
                 >
-                  Editar
+                  <FaEdit className={styles.icon} />
                 </button>
                 <button
                   className={`${styles.btn} ${styles.btnDanger}`}
                   onClick={() => router.push(`/products/delete/${product.id}`)}
+                  title="Excluir produto"
                 >
-                  Excluir
+                  <FaTrash className={styles.icon} />
                 </button>
               </td>
             </tr>

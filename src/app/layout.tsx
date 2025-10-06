@@ -1,37 +1,33 @@
 // app/layout.tsx
-import type { Metadata } from "next";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import { AuthProvider } from './contexts/AuthProvider';
+import ProtectedApp from './ProtectedApp';
+import { ProductsProvider } from './contexts/ProductProvider';
+import { BrandProvider } from './contexts/BrandProvider';
+import { CategoryProvider } from './contexts/CategoryProvider';
 
-import Navbar from "./components/Navbar/Navbar";
-import Footer from "./components/Footer/Footer";
-
-import { CategoryProvider } from "./contexts/CategoryProvider";
-import { BrandProvider } from "./contexts/BrandProvider";
-import { ProductsProvider } from "./contexts/ProductProvider";
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "Painel Administrativo",
-  description: "Sistema de gerenciamento de produtos, marcas e categorias",
+  title: 'Painel Administrativo',
+  description: 'Sistema de gerenciamento de produtos, marcas e categorias',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR">
-      <body>
-        {/* 🔹 CategoryProvider e BrandProvider precisam envolver o ProductProvider */}
-        <CategoryProvider>
-          <BrandProvider>
-            <ProductsProvider>
-              <Navbar />
-              <main className="container">{children}</main>
-              <Footer />
-            </ProductsProvider>
-          </BrandProvider>
-        </CategoryProvider>
+      <body className={inter.className}>
+        <AuthProvider>
+          <ProductsProvider>
+            <BrandProvider>
+              <CategoryProvider>
+                <ProtectedApp>{children}</ProtectedApp>
+              </CategoryProvider>
+            </BrandProvider>
+          </ProductsProvider>
+        </AuthProvider>
       </body>
     </html>
   );

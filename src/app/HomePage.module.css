@@ -1,96 +1,100 @@
-/* src/pages/home/HomePage.module.css */
+/* src/app/HomePage.module.css */
 
 /* Container principal */
 .container {
   max-width: 1100px;
   margin: 4rem auto;
-  padding: 2.5rem 2rem;
-  background-color: #ffffff;
-  border-radius: 1rem;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  padding: 3rem 2.5rem;
+  background: linear-gradient(135deg, #ffffff, #faf7fb);
+  border-radius: 1.2rem;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.1);
   text-align: center;
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  transition: all 0.3s ease;
+}
+
+.container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.15);
 }
 
 /* Título */
 .title {
   font-size: 2.75rem;
   font-weight: 800;
-  color: #1f2937;
+  background: linear-gradient(90deg, #c000cb, #810a87);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   margin-bottom: 3rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 1.2px;
 }
 
 /* Linha de botões */
 .buttonsRow {
   display: flex;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 1.8rem;
   flex-wrap: wrap;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
-/* Botões */
+/* Botões base */
 .btn {
+  width: 13rem;
   padding: 1.1rem 0;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 600;
   border-radius: 0.75rem;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-  user-select: none;
-  width: 12rem; /* largura fixa para consistência */
-  border: 2px solid transparent;
   text-transform: uppercase;
   cursor: pointer;
+  user-select: none;
+  border: none;
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
 
-/* Cores dos botões */
+/* Botão roxo (Marcas) */
 .btnPrimary {
-  color: #2563eb;
-  border-color: #2563eb;
-  background-color: transparent;
+  background: linear-gradient(135deg, #c000cb, #810a87);
 }
 
 .btnPrimary:hover {
-  background-color: #2563eb;
-  color: #ffffff;
-  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
-  transform: translateY(-2px);
+  background: linear-gradient(135deg, #810a87, #c000cb);
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 8px 24px rgba(192, 0, 203, 0.35);
 }
 
+/* Botão amarelo (Categorias) */
 .btnSuccess {
-  color: #16a34a;
-  border-color: #16a34a;
-  background-color: transparent;
+  background: linear-gradient(135deg, #ffc90a, #ffb800);
+  color: #3b3b3b;
+  font-weight: 700;
 }
 
 .btnSuccess:hover {
-  background-color: #16a34a;
-  color: #ffffff;
-  box-shadow: 0 8px 20px rgba(22, 163, 74, 0.3);
-  transform: translateY(-2px);
+  background: linear-gradient(135deg, #ffb800, #ffc90a);
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 8px 24px rgba(255, 201, 10, 0.4);
 }
 
+/* Botão escuro (Produtos) */
 .btnDark {
-  color: #1f2937;
-  border-color: #1f2937;
-  background-color: transparent;
+  background: linear-gradient(135deg, #2b2b2b, #1a1a1a);
 }
 
 .btnDark:hover {
-  background-color: #1f2937;
-  color: #ffffff;
-  box-shadow: 0 8px 20px rgba(31, 41, 55, 0.3);
-  transform: translateY(-2px);
+  background: linear-gradient(135deg, #1a1a1a, #000000);
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
-/* Descrição pequena abaixo dos botões */
+/* Descrição opcional */
 .description {
   font-size: 1rem;
-  color: #4b5563;
-  margin-top: 0.75rem;
+  color: #5f5f5f;
+  margin-top: 1rem;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
@@ -100,7 +104,7 @@
 @media (max-width: 768px) {
   .container {
     margin: 2rem 1rem;
-    padding: 2rem 1rem;
+    padding: 2rem 1.25rem;
   }
 
   .title {

@@ -1,9 +1,10 @@
-// app/components/Category/CategoryList.tsx
+// src/components/Category/CategoryList.tsx
 
 'use client';
 
 import Link from 'next/link';
 import { Category } from '../../types/Category';
+import { FaInfoCircle, FaEdit, FaTrash } from 'react-icons/fa';
 import styles from './CategoryList.module.css';
 
 interface CategoryListProps {
@@ -31,24 +32,27 @@ export default function CategoryList({ categories }: CategoryListProps) {
             <td>{category.id}</td>
             <td>{category.name}</td>
             <td>{category.description}</td>
-            <td>
+            <td className={styles.actions}>
               <Link
                 href={`/category/${category.id}`}
                 className={`${styles.btn} ${styles.btnInfo}`}
+                title="Ver detalhes"
               >
-                Detalhes
+                <FaInfoCircle />
               </Link>
               <Link
                 href={`/category/edit/${category.id}`}
                 className={`${styles.btn} ${styles.btnWarning}`}
+                title="Editar categoria"
               >
-                Editar
+                <FaEdit />
               </Link>
               <Link
                 href={`/category/delete/${category.id}`}
                 className={`${styles.btn} ${styles.btnDanger}`}
+                title="Excluir categoria"
               >
-                Excluir
+                <FaTrash />
               </Link>
             </td>
           </tr>

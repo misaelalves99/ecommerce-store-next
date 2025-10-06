@@ -1,5 +1,3 @@
-/* src/components/Category/CategoryList.module.css */
-
 .table {
   width: 100%;
   border-collapse: separate;
@@ -46,25 +44,38 @@
   transition: background-color 0.2s ease;
 }
 
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .btn {
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
+  padding: 0.45rem 0.55rem;
+  font-size: 0.9rem;
   font-weight: 600;
   border-radius: 0.5rem;
   text-decoration: none;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   transition: background-color 0.2s ease, transform 0.1s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   border: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn svg {
+  font-size: 0.95rem;
 }
 
 .btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 
 .btnInfo {
-  background-color: #17a2b8; /* A light blue for 'Detalhes' */
+  background-color: #17a2b8;
   color: #fff;
 }
 .btnInfo:hover {
@@ -72,27 +83,22 @@
 }
 
 .btnWarning {
-  background-color: #ffc107; /* Yellow for 'Editar' */
-  color: #212529; /* Dark text for contrast on yellow */
+  background-color: #ffc107;
+  color: #212529;
 }
 .btnWarning:hover {
   background-color: #d39e00;
 }
 
 .btnDanger {
-  background-color: #dc3545; /* Red for 'Excluir' */
+  background-color: #dc3545;
   color: #fff;
 }
 .btnDanger:hover {
   background-color: #c82333;
 }
 
-/* Spacing between action buttons */
-.btn + .btn {
-  margin-left: 0.5rem;
-}
-
-/* Styles for when there are no categories */
+/* Mensagem de lista vazia */
 .empty {
   text-align: center;
   color: #6c757d;
