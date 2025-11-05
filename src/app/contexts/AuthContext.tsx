@@ -18,6 +18,8 @@ export interface AuthContextType {
   loginWithGoogle: () => Promise<boolean>;
   loginWithFacebook: () => Promise<boolean>;
   logout: () => Promise<void>;
+  /** Helper para exibir mensagens amigáveis a partir de códigos do Firebase Auth */
+  mapAuthError: (code?: string) => string;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);

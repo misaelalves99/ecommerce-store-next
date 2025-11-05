@@ -1,65 +1,131 @@
+// app/auth/register/page.tsx
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/app/hooks/useAuth';
 import Link from 'next/link';
 import { FaGoogle, FaFacebookF } from 'react-icons/fa';
-import { useAuth } from '@/app/hooks/useAuth';
 import SocialButton from '@/app/components/ui/SocialButton';
 import styles from '../AuthForm.module.css';
 
 export default function RegisterPage() {
-  const { register, loginWithGoogle, loginWithFacebook } = useAuth();
+  const { register, loginWithGoogle, loginWithFacebook, mapAuthError } = useAuth();
   const router = useRouter();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  // Fallback local se o provider não expuser mapAuthError
+  const mapError = useMemo(
+    () =>
+      mapAuthError ??
+      ((code?: string) => {
+        switch (code) {
+          case 'auth/invalid-email':
+            return 'E-mail inválido.';
+          case 'auth/email-already-in-use':
+            return 'Este e-mail já está cadastrado.';
+          case 'auth/weak-password':
+            return 'A senha deve ter pelo menos 6 caracteres.';
+          case 'auth/unauthorized-domain':
+            return 'Domínio não autorizado nas configurações do Firebase.';
+          default:
+            return 'Não foi possível criar a conta. Tente novamente.';
+        }
+      }),
+    [mapAuthError]
+  );
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    const success = await register(name, email, password);
-    setLoading(false);
-    if (success) router.push('/');
+    if (submitting) return;
+
+    const nameTrim = name.trim();
+    const emailTrim = email.trim();
+    const passTrim = password.trim();
+
+    if (!nameTrim || !emailTrim || !passTrim) {
+      setErrorMsg('Preencha nome, e-mail e senha.');
+      return;
+    }
+    if (passTrim.length < 6) {
+      setErrorMsg('A senha deve ter no mínimo 6 caracteres.');
+      return;
+    }
+
+    setSubmitting(true);
+    setErrorMsg(null);
+    try {
+      const ok = await register(nameTrim, emailTrim, passTrim);
+      if (ok) router.push('/employee');
+      else setErrorMsg(mapError());
+    } catch (err: any) {
+      setErrorMsg(mapError(err?.code));
+    } finally {
+      setSubmitting(false);
+    }
   };
 
-  const handleGoogle = async () => {
-    setLoading(true);
-    const success = await loginWithGoogle();
-    setLoading(false);
-    if (success) router.push('/');
+  const handleGoogleLogin = async () => {
+    if (submitting) return;
+    setSubmitting(true);
+    setErrorMsg(null);
+    try {
+      const ok = await loginWithGoogle();
+      if (ok) router.push('/employee');
+      else setErrorMsg(mapError());
+    } catch (err: any) {
+      setErrorMsg(mapError(err?.code));
+    } finally {
+      setSubmitting(false);
+    }
   };
 
-  const handleFacebook = async () => {
-    setLoading(true);
-    const success = await loginWithFacebook();
-    setLoading(false);
-    if (success) router.push('/');
+  const handleFacebookLogin = async () => {
+    if (submitting) return;
+    setSubmitting(true);
+    setErrorMsg(null);
+    try {
+      const ok = await loginWithFacebook();
+      if (ok) router.push('/employee');
+      else setErrorMsg(mapError());
+    } catch (err: any) {
+      setErrorMsg(mapError(err?.code));
+    } finally {
+      setSubmitting(false);
+    }
   };
+
+  const isDisabled =
+    submitting || !name.trim() || !email.trim() || password.trim().length < 6;
 
   return (
     <div className={styles.container}>
-      {/* Lado esquerdo com imagem e overlay */}
+      {/* Lado esquerdo: imagem e texto */}
       <div className={styles.imageSide}>
         <div className={styles.overlay}>
-          <h2 className={styles.welcomeTitle}>Transformando ideias em soluções eficientes</h2>
+          <h2 className={styles.welcomeTitle}>Compromisso, Agilidade e Excelência</h2>
           <p className={styles.welcomeText}>
-            Inspirando confiança e inovação em cada processo da empresa.
+            Valorizando inovação, eficiência e confiança em todas as operações.
           </p>
         </div>
-        <img src="/assets/auth-banner.png" alt="Registro" />
+        <img src="/assets/auth-banner.png" alt="Employee Registration" />
       </div>
 
-      {/* Lado direito com formulário */}
+      {/* Lado direito: Formulário */}
       <div className={styles.formSide}>
         <h1 className={styles.title}>Criar Conta</h1>
         <p className={styles.subtitle}>
-          Cadastre-se para acessar o sistema de gerenciamento de funcionários.
+          Cadastre-se para começar a gerenciar seus funcionários de forma moderna.
         </p>
 
-        <form onSubmit={handleRegister} className={styles.form}>
+        {errorMsg && <div className={styles.error}>{errorMsg}</div>}
+
+        <form onSubmit={handleRegister} className={styles.form} noValidate>
           <input
             type="text"
             placeholder="Nome completo"
@@ -67,6 +133,8 @@ export default function RegisterPage() {
             onChange={(e) => setName(e.target.value)}
             required
             className={styles.input}
+            autoComplete="name"
+            aria-label="Nome completo"
           />
           <input
             type="email"
@@ -75,18 +143,23 @@ export default function RegisterPage() {
             onChange={(e) => setEmail(e.target.value)}
             required
             className={styles.input}
+            autoComplete="email"
+            inputMode="email"
+            aria-label="E-mail"
           />
           <input
             type="password"
-            placeholder="Senha"
+            placeholder="Senha (mín. 6 caracteres)"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
             className={styles.input}
+            autoComplete="new-password"
+            aria-label="Senha"
+            minLength={6}
           />
-
-          <button type="submit" className={styles.btnPrimary} disabled={loading}>
-            {loading ? 'Registrando...' : 'Registrar'}
+          <button type="submit" className={styles.btnPrimary} disabled={isDisabled} aria-disabled={isDisabled}>
+            {submitting ? 'Registrando…' : 'Registrar'}
           </button>
         </form>
 
@@ -96,22 +169,21 @@ export default function RegisterPage() {
           <SocialButton
             icon={FaGoogle}
             color="#DB4437"
-            onClick={handleGoogle}
             ariaLabel="Entrar com Google"
+            onClick={handleGoogleLogin}
+            disabled={submitting}
           />
           <SocialButton
             icon={FaFacebookF}
             color="#1877F2"
-            onClick={handleFacebook}
             ariaLabel="Entrar com Facebook"
+            onClick={handleFacebookLogin}
+            disabled={submitting}
           />
         </div>
 
         <p className={styles.text}>
-          Já possui uma conta?{' '}
-          <Link href="/auth/login" className={styles.link}>
-            Faça login
-          </Link>
+          Já possui conta? <Link href="/auth/login" className={styles.link}>Entrar</Link>
         </p>
       </div>
     </div>
